@@ -1,5 +1,7 @@
-package sample;
+package app.controllers;
 
+import app.models.AccountList;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,9 +26,22 @@ public class AddItemPageController {
     @FXML TextField nameField, senderField, sizeField, trackingNumberField, roomField;
     @FXML ChoiceBox itemTypeChoiceBox, buildingChoiceBox;
 
+    private AccountList accounts;
+
     @FXML private void initialize(){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run(){
+                userNameLabel.setText(accounts.getCurrentAccount().getName());
+            }
+        });
+
         itemTypeChoiceBox.setItems(itemTypeList);
         buildingChoiceBox.setItems(buildingList);
+    }
+
+    public void setAccounts(AccountList accounts){
+        this.accounts = accounts;
     }
 
     @FXML public void handleAccountSettingBtnOnAction(ActionEvent event) throws IOException {
@@ -37,6 +52,7 @@ public class AddItemPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         SettingPageController setting = loader.getController();
+        setting.setAccounts(accounts);
         stage.show();
     }
 
@@ -60,6 +76,7 @@ public class AddItemPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         RoomListPageController guestList = loader.getController();
+        guestList.setAccounts(accounts);
         stage.show();
     }
 
@@ -75,6 +92,7 @@ public class AddItemPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         ManageItemsPageController manageItems = loader.getController();
+        manageItems.setAccounts(accounts);
         stage.show();
     }
 
@@ -86,6 +104,7 @@ public class AddItemPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         AddGuestPageController addGuest = loader.getController();
+        addGuest.setAccounts(accounts);
         stage.show();
     }
 }

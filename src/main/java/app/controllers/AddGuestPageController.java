@@ -1,5 +1,7 @@
-package sample;
+package app.controllers;
 
+import app.models.AccountList;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,11 +26,23 @@ public class AddGuestPageController {
     @FXML TextField nameField, roomField;
     @FXML ChoiceBox roomTypeChoiceBox, buildingChoiceBox;
 
+    private AccountList accounts;
+
     @FXML private void initialize(){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run(){
+                userNameLabel.setText(accounts.getCurrentAccount().getName());
+            }
+        });
+
         buildingChoiceBox.setItems(buildingList);
         roomTypeChoiceBox.setItems(roomTypeList);
     }
 
+    public void setAccounts(AccountList accounts){
+        this.accounts = accounts;
+    }
     @FXML public void handleAccountSettingBtnOnAction(ActionEvent event) throws IOException {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
@@ -37,6 +51,7 @@ public class AddGuestPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         SettingPageController setting = loader.getController();
+        setting.setAccounts(accounts);
         stage.show();
     }
 
@@ -60,6 +75,7 @@ public class AddGuestPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         ManageItemsPageController manageItems = loader.getController();
+        manageItems.setAccounts(accounts);
         stage.show();
     }
 
@@ -75,6 +91,7 @@ public class AddGuestPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         RoomListPageController guestList = loader.getController();
+        guestList.setAccounts(accounts);
         stage.show();
     }
 

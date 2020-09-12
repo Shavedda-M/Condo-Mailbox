@@ -1,5 +1,7 @@
-package sample;
+package app.controllers;
 
+import app.models.AccountList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,21 @@ public class PersonnelHomePageController {
     @FXML Button roomListBtn, manageItemsBtn, accountSettingBtn, logoutBtn, addGuestBtn;
     @FXML Label userNameLabel;
 
+    private AccountList accounts;
+
+    @FXML private void initialize(){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run(){
+                userNameLabel.setText(accounts.getCurrentAccount().getName());
+            }
+        });
+    }
+
+    public void setAccounts(AccountList accounts){
+        this.accounts = accounts;
+    }
+
     @FXML public void handleAccountSettingBtnOnAction(ActionEvent event) throws IOException {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
@@ -23,6 +40,7 @@ public class PersonnelHomePageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         SettingPageController setting = loader.getController();
+        setting.setAccounts(accounts);
         stage.show();
     }
 
@@ -46,6 +64,7 @@ public class PersonnelHomePageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         RoomListPageController guestList = loader.getController();
+        guestList.setAccounts(accounts);
         stage.show();
     }
 
@@ -57,6 +76,7 @@ public class PersonnelHomePageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         ManageItemsPageController manageItems = loader.getController();
+        manageItems.setAccounts(accounts);
         stage.show();
     }
 
@@ -68,6 +88,7 @@ public class PersonnelHomePageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         AddGuestPageController addGuest = loader.getController();
+        addGuest.setAccounts(accounts);
         stage.show();
     }
 }

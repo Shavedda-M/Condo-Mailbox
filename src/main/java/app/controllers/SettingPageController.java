@@ -1,5 +1,7 @@
-package sample;
+package app.controllers;
 
+import app.models.AccountList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,21 @@ import java.io.IOException;
 public class SettingPageController {
     @FXML Button changePasswordBtn, logoutBtn, backBtn;
     @FXML Label userNameLabel;
+
+    private AccountList accounts;
+
+    @FXML private void initialize(){
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run(){
+                userNameLabel.setText(accounts.getCurrentAccount().getName());
+            }
+        });
+    }
+
+    public void setAccounts(AccountList accounts){
+        this.accounts = accounts;
+    }
 
     @FXML public void handleLogoutBtnOnAction(ActionEvent event) throws IOException {
         Button b = (Button) event.getSource();
@@ -34,6 +51,7 @@ public class SettingPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         ProfileSettingPageController profileSet = loader.getController();
+        profileSet.setAccounts(accounts);
         stage.show();
     }
 
@@ -45,6 +63,7 @@ public class SettingPageController {
         );
         stage.setScene(new Scene(loader.load(), 800, 600));
         ChangePasswordPageController changePass = loader.getController();
+        changePass.setAccounts(accounts);
         stage.show();
     }
 
