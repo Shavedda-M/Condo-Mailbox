@@ -37,7 +37,7 @@ public class SettingPageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
 
@@ -47,10 +47,10 @@ public class SettingPageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/profile_setting_page.fxml")
+                getClass().getResource("/setting_profile_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        ProfileSettingPageController profileSet = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        SettingProfilePageController profileSet = loader.getController();
         profileSet.setAccounts(accounts);
         stage.show();
     }
@@ -59,10 +59,10 @@ public class SettingPageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/change_password_page.fxml")
+                getClass().getResource("/setting_change_password_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        ChangePasswordPageController changePass = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        SettingChangePasswordPageController changePass = loader.getController();
         changePass.setAccounts(accounts);
         stage.show();
     }

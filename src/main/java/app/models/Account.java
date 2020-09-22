@@ -1,14 +1,15 @@
 package app.models;
 
 public class Account {
+
+    private String userName;
     private String name;
-    private String id;
     private String password;
     private String accountType;
 
-    public Account(String name, String id, String password, String accountType){
+    public Account(String name, String userName, String password, String accountType){
         this.name = name;
-        this.id = id;
+        this.userName = userName;
         this.password = password;
         this.accountType = accountType;
     }
@@ -17,8 +18,8 @@ public class Account {
         return name;
     }
 
-    public String getId() {
-        return id;
+    public String getUserName() {
+        return userName;
     }
 
     public String getPassword() {
@@ -39,6 +40,8 @@ public class Account {
 
     @Override
     public String toString() {
-        return "name = " + name + "\nid = " + id + "\npassword = " + password;
+        return "name = " + name +
+                "\nUsername = " + userName +
+                "\npassword = " + password;
     }
 }

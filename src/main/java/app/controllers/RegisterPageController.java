@@ -21,7 +21,7 @@ public class RegisterPageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         stage.show();
     }
 
@@ -31,7 +31,7 @@ public class RegisterPageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         stage.show();
     }
 

@@ -38,7 +38,7 @@ public class GuestHomePageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/setting_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
         stage.show();
@@ -50,7 +50,7 @@ public class GuestHomePageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
     }
@@ -59,10 +59,10 @@ public class GuestHomePageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/item_list_page.fxml")
+                getClass().getResource("/guest_item_list_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        ItemListPageController itemList = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        GuestItemListPageController itemList = loader.getController();
         itemList.setAccounts(accounts);
         stage.show();
     }

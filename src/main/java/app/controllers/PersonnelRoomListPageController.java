@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ManageItemsPageController {
-    @FXML Button roomListBtn, accountSettingBtn, logoutBtn, addItemBtn;
+public class PersonnelRoomListPageController {
+    @FXML Button manageItemsBtn, addGuestBtn, accountSettingBtn, logoutBtn, addRoomBtn;
     @FXML Label userNameLabel;
 
     private AccountList accounts;
@@ -37,7 +37,7 @@ public class ManageItemsPageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/setting_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
         stage.show();
@@ -49,33 +49,21 @@ public class ManageItemsPageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
 
     }
 
-    @FXML public void handleRoomListBtnOnAction(ActionEvent event) throws IOException {
+    @FXML public void handleManageItemsBtnOnAction(ActionEvent event) throws IOException {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/room_list_page.fxml")
+                getClass().getResource("/personnel_manage_items_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        RoomListPageController guestList = loader.getController();
-        guestList.setAccounts(accounts);
-        stage.show();
-    }
-
-    @FXML public void handleAddItemBtnOnAction(ActionEvent event) throws IOException {
-        Button b = (Button) event.getSource();
-        Stage stage = (Stage) b.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/add_item_page.fxml")
-        );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        AddItemPageController addItem = loader.getController();
-        addItem.setAccounts(accounts);
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelManageItemsPageController manageItems = loader.getController();
+        manageItems.setAccounts(accounts);
         stage.show();
     }
 
@@ -83,11 +71,12 @@ public class ManageItemsPageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/add_guest_page.fxml")
+                getClass().getResource("/personnel_add_guest_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        AddGuestPageController addGuest = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelAddGuestPageController addGuest = loader.getController();
         addGuest.setAccounts(accounts);
         stage.show();
     }
+
 }

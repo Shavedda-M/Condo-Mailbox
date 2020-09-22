@@ -3,6 +3,7 @@ package app.models;
 import java.util.ArrayList;
 
 public class AccountList {
+
     private ArrayList<Account> accounts;
     private Account currentAccount;
 
@@ -12,7 +13,7 @@ public class AccountList {
 
     public boolean addAccount(Account acc){
         for(int i = 0; i < accounts.size(); i++){
-            if(accounts.get(i).getId().equals(acc.getId())){
+            if(accounts.get(i).getUserName().equals(acc.getUserName())){
                 return false;
             }
         }
@@ -22,7 +23,7 @@ public class AccountList {
 
     public boolean checkAccount(String id, String password){
         for(int i = 0; i < accounts.size(); i++){
-            if(accounts.get(i).getId().equals(id) && accounts.get(i).getPassword().equals(password)){
+            if(accounts.get(i).getUserName().equals(id) && accounts.get(i).getPassword().equals(password)){
                 currentAccount = accounts.get(i);
                 return true;
             }
@@ -35,8 +36,13 @@ public class AccountList {
         return currentAccount;
     }
 
+    public ArrayList<Account> toList(){
+        return  accounts;
+    }
+
     @Override
     public String toString() {
         return accounts.toString();
     }
+
 }

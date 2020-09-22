@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ProfileSettingPageController {
+public class SettingProfilePageController {
     @FXML
     Button logoutBtn, backBtn, changePasswordBtn, confirmBtn;
     @FXML TextField newNameField;
@@ -40,7 +40,7 @@ public class ProfileSettingPageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
     }
@@ -49,10 +49,10 @@ public class ProfileSettingPageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/change_password_page.fxml")
+                getClass().getResource("/setting_change_password_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        ChangePasswordPageController changePass = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        SettingChangePasswordPageController changePass = loader.getController();
         changePass.setAccounts(accounts);
         stage.show();
     }

@@ -1,3 +1,6 @@
-Administrator,admin,password,admin
-personnel,abc,12345,personnel
-guest,def,67890,guest
+admin,Administrator,admin,password
+personnel,personnel1,abc,11111
+personnel,personnel2,def,22222
+personnel,personnel3,ghi,33333
+guest,guest1,guest1,12345,101
+guest,guest2,guest2,67890,102

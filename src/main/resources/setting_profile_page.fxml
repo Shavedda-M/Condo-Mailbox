@@ -2,8 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,34 +17,49 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: DarkSlateBlue;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.SettingPageController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: DarkSlateBlue;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.SettingProfilePageController">
    <children>
       <VBox layoutY="128.0" prefHeight="640.0" prefWidth="210.0" style="-fx-border-color: #1a0000;">
          <children>
-            <Button fx:id="profileSettingBtn" mnemonicParsing="false" onAction="#handleProfileSettingBtnOnAction" prefHeight="90.0" prefWidth="210.0" style="-fx-background-color: slateblue;" text="Profile Setting" textFill="WHITE">
+            <Button fx:id="profileSettingBtn" mnemonicParsing="false" prefHeight="90.0" prefWidth="210.0" style="-fx-background-color: slateblue;" text="Profile Setting" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
                <effect>
-                  <InnerShadow />
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
                </effect>
             </Button>
             <Button fx:id="changePasswordBtn" mnemonicParsing="false" onAction="#handleChangePasswordBtnOnAction" prefHeight="90.0" prefWidth="210.0" style="-fx-background-color: slateblue;" text="Change Password" textFill="WHITE">
-               <effect>
-                  <InnerShadow />
-               </effect>
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </Button>
          </children>
       </VBox>
-      <Button fx:id="backBtn" layoutY="678.0" mnemonicParsing="false" onAction="#handleBackBtnOnAction" prefHeight="90.0" prefWidth="210.0" style="-fx-background-color: slateblue;" text="Back" textFill="WHITE">
-         <effect>
-            <InnerShadow />
-         </effect>
+      <TextField fx:id="newNameField" layoutX="512.0" layoutY="265.0" prefHeight="40.0" prefWidth="385.0" />
+      <Label layoutX="385.0" layoutY="270.0" text="New Name" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="306.0" layoutY="404.0" text="New Profile Picture" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="confirmBtn" layoutX="623.0" layoutY="593.0" mnemonicParsing="false" onAction="#handleConfirmBtnOnAction" style="-fx-background-color: limegreen;" text="Confirm">
+         <font>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="130.0" stroke="BLACK" strokeType="INSIDE" width="1024.0">
@@ -89,5 +108,20 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="backBtn" layoutY="678.0" mnemonicParsing="false" onAction="#handleBackBtnOnAction" prefHeight="90.0" prefWidth="210.0" style="-fx-background-color: slateblue;" text="Back" textFill="WHITE">
+         <effect>
+            <InnerShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d0dae4" height="130.0" layoutX="512.0" layoutY="354.0" stroke="#d0dae4" strokeType="INSIDE" width="150.0" />
+      <ImageView fx:id="itemImageView" fitHeight="130.0" fitWidth="150.0" layoutX="512.0" layoutY="354.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="browseImageBtn" layoutX="590.0" layoutY="499.0" mnemonicParsing="false" text="Browse">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

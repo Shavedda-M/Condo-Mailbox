@@ -37,7 +37,7 @@ public class AdminHomePageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/setting_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
         stage.show();
@@ -49,7 +49,7 @@ public class AdminHomePageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
     }
@@ -58,10 +58,10 @@ public class AdminHomePageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/personnel_list_page.fxml")
+                getClass().getResource("/admin_personnel_list_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        PersonnelListPageController perList = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        AdminPersonnelListPageController perList = loader.getController();
         perList.setAccounts(accounts);
         stage.show();
     }
@@ -70,10 +70,10 @@ public class AdminHomePageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/add_personnel_page.fxml")
+                getClass().getResource("/admin_add_personnel_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        AddPersonnelPageController addPer = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        AdminAddPersonnelPageController addPer = loader.getController();
         addPer.setAccounts(accounts);
         stage.show();
     }

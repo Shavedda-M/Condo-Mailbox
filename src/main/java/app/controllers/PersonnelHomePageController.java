@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class PersonnelHomePageController {
-    @FXML Button roomListBtn, manageItemsBtn, accountSettingBtn, logoutBtn, addGuestBtn;
+    @FXML Button roomListBtn, manageItemsBtn, accountSettingBtn, logoutBtn, addGuestBtn, addRoomBtn;
     @FXML Label userNameLabel;
 
     private AccountList accounts;
@@ -38,7 +38,7 @@ public class PersonnelHomePageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/setting_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
         stage.show();
@@ -50,21 +50,21 @@ public class PersonnelHomePageController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
+        stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
 
     }
 
-    @FXML public void handleRoomListBtnOnAction(ActionEvent event) throws IOException {
+    @FXML public void handleAddGuestBtnOnAction(ActionEvent event) throws IOException {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/room_list_page.fxml")
+                getClass().getResource("/personnel_add_guest_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        RoomListPageController guestList = loader.getController();
-        guestList.setAccounts(accounts);
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelAddGuestPageController addGuest = loader.getController();
+        addGuest.setAccounts(accounts);
         stage.show();
     }
 
@@ -72,23 +72,23 @@ public class PersonnelHomePageController {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/manage_items_page.fxml")
+                getClass().getResource("/personnel_manage_items_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        ManageItemsPageController manageItems = loader.getController();
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelManageItemsPageController manageItems = loader.getController();
         manageItems.setAccounts(accounts);
         stage.show();
     }
 
-    @FXML public void handleAddGuestBtnOnAction(ActionEvent event) throws IOException {
+    @FXML public void handleRoomListBtnOnAction(ActionEvent event) throws IOException {
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/add_guest_page.fxml")
+                getClass().getResource("/personnel_room_list_page.fxml")
         );
-        stage.setScene(new Scene(loader.load(), 800, 600));
-        AddGuestPageController addGuest = loader.getController();
-        addGuest.setAccounts(accounts);
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelRoomListPageController guestList = loader.getController();
+        guestList.setAccounts(accounts);
         stage.show();
     }
 }
