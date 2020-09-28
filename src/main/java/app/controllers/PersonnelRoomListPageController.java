@@ -40,6 +40,7 @@ public class PersonnelRoomListPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
+        setting.setPrevPage("PersonnelRoomList");
         stage.show();
     }
 

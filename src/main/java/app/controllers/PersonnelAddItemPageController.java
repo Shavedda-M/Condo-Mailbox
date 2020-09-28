@@ -1,10 +1,10 @@
 package app.controllers;
 
 import app.models.AccountList;
+import app.services.BrowseImage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,12 +19,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PersonnelAddItemPageController {
 
@@ -64,6 +60,7 @@ public class PersonnelAddItemPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
+        setting.setPrevPage("PersonnelAddItem");
         stage.show();
     }
 
@@ -122,30 +119,17 @@ public class PersonnelAddItemPageController {
     @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Browse Image");
+        FileChooser fileChooser;
 
-        String userDirectoryString = System.getProperty("user.home") + "\\Pictures";
-        File userDirectory = new File(userDirectoryString);
-
-        if(!userDirectory.canRead()){
-            userDirectory = new File("c:/");
-        }
-
-        fileChooser.setInitialDirectory(userDirectory);
-
-        FileChooser.ExtensionFilter extFilterAll = new FileChooser.ExtensionFilter("All Files", "*.*");
-        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterAll,extFilterJPG, extFilterPNG);
+        fileChooser = BrowseImage.Browse();
 
         File file = fileChooser.showOpenDialog(stage);
         try{
             Image image = new Image(file.toURI().toString());
             itemImageView.setImage(image);
             itemImageView.setPreserveRatio(false);
-            itemImageView.setFitHeight(140);
-            itemImageView.setFitWidth(140);
+            itemImageView.setFitHeight(130);
+            itemImageView.setFitWidth(150);
         }catch (Exception ex){
 
         }

@@ -1,6 +1,6 @@
 package app.models;
 
-public class Account {
+public class Account implements Accounts {
 
     private String userName;
     private String name;
@@ -12,6 +12,15 @@ public class Account {
         this.userName = userName;
         this.password = password;
         this.accountType = accountType;
+    }
+
+    @Override
+    public boolean checkAccount(String id, String password) {
+        if(id.equals(getUserName()) && password.equals(getPassword())){
+            return true;
+        }
+        return  false;
+
     }
 
     public String getName() {
@@ -44,4 +53,6 @@ public class Account {
                 "\nUsername = " + userName +
                 "\npassword = " + password;
     }
+
+
 }

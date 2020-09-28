@@ -23,7 +23,7 @@ public class AccountList {
 
     public boolean checkAccount(String id, String password){
         for(int i = 0; i < accounts.size(); i++){
-            if(accounts.get(i).getUserName().equals(id) && accounts.get(i).getPassword().equals(password)){
+            if(accounts.get(i).checkAccount(id, password)){
                 currentAccount = accounts.get(i);
                 return true;
             }
@@ -37,7 +37,7 @@ public class AccountList {
     }
 
     public ArrayList<Account> toList(){
-        return  accounts;
+        return accounts;
     }
 
     @Override

@@ -41,6 +41,7 @@ public class PersonnelHomePageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
+        setting.setPrevPage("PersonnelHomePage");
         stage.show();
     }
 

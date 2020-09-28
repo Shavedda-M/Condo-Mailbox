@@ -1,12 +1,21 @@
 package app.models;
 
-public class Personnel extends Account{
+public class Personnel extends Account implements Accounts {
 
     private String status;
 
     public Personnel(String name, String userName, String password){
         super(name, userName, password, "personnel");
         this.status = "Active";
+    }
+
+    @Override
+    public boolean checkAccount(String id, String password) {
+        if(id.equals(getUserName()) && password.equals(getPassword()) && getStatus().equals("Active")){
+            return true;
+        }
+        return  false;
+
     }
 
     public String getStatus() {
@@ -24,4 +33,6 @@ public class Personnel extends Account{
                 "\nPassword = " + super.getPassword() +
                 "\nStatus = " + status;
     }
+
+
 }

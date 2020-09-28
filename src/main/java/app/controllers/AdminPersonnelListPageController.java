@@ -48,15 +48,14 @@ public class AdminPersonnelListPageController {
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameCol.setPrefWidth(250);
-        TableColumn userNameeCol = new TableColumn("Username");
-        userNameeCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
-        userNameeCol.setPrefWidth(250);
+        TableColumn userNameCol = new TableColumn("Username");
+        userNameCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        userNameCol.setPrefWidth(250);
         TableColumn statuscol = new TableColumn("Status");
         statuscol.setCellValueFactory(new PropertyValueFactory<>("status"));
         statuscol.setPrefWidth(113);
 
-        personnelTable.setItems(accountObservableList);
-        personnelTable.getColumns().addAll(nameCol, userNameeCol, statuscol);
+        personnelTable.getColumns().addAll(nameCol, userNameCol, statuscol);
 
     }
 
@@ -73,6 +72,7 @@ public class AdminPersonnelListPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
+        setting.setPrevPage("AdminPersonnelList");
         stage.show();
     }
 

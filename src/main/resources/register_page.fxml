@@ -83,8 +83,8 @@
          </font>
       </Label>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d0dae4" height="130.0" layoutX="367.0" layoutY="506.0" stroke="#d0dae4" strokeType="INSIDE" width="150.0" />
-      <ImageView fx:id="itemImageView" fitHeight="130.0" fitWidth="150.0" layoutX="367.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="browseImageBtn" layoutX="445.0" layoutY="651.0" mnemonicParsing="false" text="Browse">
+      <ImageView fx:id="profileImageView" fitHeight="130.0" fitWidth="150.0" layoutX="367.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="browseImageBtn" layoutX="445.0" layoutY="651.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" text="Browse">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
