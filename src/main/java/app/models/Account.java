@@ -20,7 +20,6 @@ public class Account implements Accounts {
             return true;
         }
         return  false;
-
     }
 
     public String getName() {
@@ -49,9 +48,9 @@ public class Account implements Accounts {
 
     @Override
     public String toString() {
-        return "name = " + name +
-                "\nUsername = " + userName +
-                "\npassword = " + password;
+        return  "Name = " + name + ", " +
+                "Username = " + userName + ", " +
+                "password = " + password + "\n";
     }
 
 

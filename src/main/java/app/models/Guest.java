@@ -4,17 +4,9 @@ public class Guest extends Account implements Accounts {
 
     private Room room;
 
-    public Guest(String name, String id, String password, Room room){
-        super(name, id, password, "guest");
+    public Guest(String name, String userName, String password, Room room){
+        super(name, userName, password, "guest");
         this.room = room;
-    }
-
-    @Override
-    public boolean checkAccount(String id, String password) {
-        if(id.equals(getUserName()) && password.equals(getPassword())){
-            return true;
-        }
-        return  false;
     }
 
     public Room getRoom() {
@@ -27,8 +19,10 @@ public class Guest extends Account implements Accounts {
 
     @Override
     public String toString() {
-        return "name = " + super.getName() +
-                "\nRoom = " + room.getRoomNumber();
+        return  "Name = " + super.getName() + ", " +
+                "Username = " + super.getUserName() + ", " +
+                "Password = " + super.getPassword() + ", " +
+                "Room = " + room.getRoomNumber() + "\n";
     }
 
 

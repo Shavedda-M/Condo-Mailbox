@@ -20,9 +20,18 @@ public class RoomList {
         return true;
     }
 
-    public Room findRoom(String name, String roomNumber){
+    public boolean checkRoom(String name,String building, String roomNumber){
         for(Room r : rooms){
-            if(r.findGuest(name) && r.getRoomNumber().equals(roomNumber)){
+            if(r.findGuest(name) && r.getRoomNumber().equals(roomNumber) && r.getBuilding().equals(building)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Room findRoom(String name,String building, String roomNumber){
+        for(Room r : rooms){
+            if(r.findGuest(name) && r.getRoomNumber().equals(roomNumber) && r.getBuilding().equals(building)){
                 return r;
             }
         }

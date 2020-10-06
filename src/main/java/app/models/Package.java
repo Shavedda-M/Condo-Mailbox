@@ -11,14 +11,6 @@ public class Package extends Item implements Items{
         this.trackingNumber = trackingNumber;
     }
 
-    @Override
-    public boolean checkItem(Room room, String senderName) {
-        if((getRoom().equals(room)) && (getSenderName().equals(senderName))){
-            return true;
-        }
-        return false;
-    }
-
     public boolean checkTrackingNumber(String trackingNumber){
         if(trackingNumber.equals(getTrackingNumber())){
             return true;

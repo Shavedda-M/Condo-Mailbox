@@ -1,0 +1,8 @@
+admin,Administrator,admin,password
+personnel,mos,abc,11111,Activated,0
+personnel,sun,def,22222,Activated,0
+personnel,chess,ghi,33333,Banned,0
+guest,leng,guest1,12345,1,111
+guest,oat,guest2,67890,1,112
+guest,nut,guest3,123456789,1,113
+guest,AJ,guest4,123123,1,121

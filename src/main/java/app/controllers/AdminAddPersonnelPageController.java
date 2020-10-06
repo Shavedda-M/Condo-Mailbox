@@ -1,7 +1,11 @@
 package app.controllers;
 
+import app.models.Account;
 import app.models.AccountList;
+import app.models.Personnel;
+import app.models.RoomList;
 import app.services.BrowseImage;
+import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -20,12 +26,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class AdminAddPersonnelPageController {
-    @FXML TextField nameField, idField, passwordField, passwordConfirmField;
+    @FXML TextField nameField, userNameField, passwordField, passwordConfirmField;
     @FXML Button confirmBtn, personnelListBtn, accountSettingBtn, logoutBtn;;
     @FXML Label userNameLabel;
     @FXML ImageView profileImageView;
 
     private AccountList accounts;
+    private RoomList rooms;
+    private ReadWriteFile dataSource;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
@@ -40,8 +48,16 @@ public class AdminAddPersonnelPageController {
         this.accounts = accounts;
     }
 
-    @FXML public void handleAccountSettingBtnOnAction(ActionEvent event) throws IOException {
-        Button b = (Button) event.getSource();
+    public void setRooms(RoomList rooms){
+        this.rooms = rooms;
+    }
+
+    public void setDataSource(ReadWriteFile dataSource){
+        this.dataSource = dataSource;
+    }
+
+    @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
+        ImageView b = (ImageView) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/setting_page.fxml")
@@ -49,12 +65,40 @@ public class AdminAddPersonnelPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
+        setting.setRooms(rooms);
+        setting.setDataSource(dataSource);
         setting.setPrevPage("AdminAddPersonnel");
         stage.show();
     }
 
-    @FXML public void handleLogoutBtnOnAction(ActionEvent event) throws IOException {
-        Button b = (Button) event.getSource();
+    @FXML public void handleLogoutImageOnAction(MouseEvent event) throws IOException {
+        ImageView b = (ImageView) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/login_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        LoginPageController login = loader.getController();
+        stage.show();
+    }
+
+    @FXML public void handleAccountSettingBtnOnAction(MouseEvent event) throws IOException {
+        Circle b = (Circle) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/setting_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        SettingPageController setting = loader.getController();
+        setting.setAccounts(accounts);
+        setting.setRooms(rooms);
+        setting.setDataSource(dataSource);
+        setting.setPrevPage("AdminAddPersonnel");
+        stage.show();
+    }
+
+    @FXML public void handleLogoutBtnOnAction(MouseEvent event) throws IOException {
+        Circle b = (Circle) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
@@ -73,11 +117,17 @@ public class AdminAddPersonnelPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         AdminPersonnelListPageController perList = loader.getController();
         perList.setAccounts(accounts);
+        perList.setRooms(rooms);
+        perList.setDataSource(dataSource);
         stage.show();
     }
 
     @FXML public void handleConfirmBtnOnAction(ActionEvent event){
-
+        if(passwordField.getText().equals(passwordConfirmField.getText())){
+            Account ac = new Personnel(nameField.getText(), userNameField.getText(), passwordField.getText());
+            accounts.addAccount(ac);
+            dataSource.setAccountsData(accounts);
+        }
     }
 
     @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){

@@ -12,8 +12,8 @@ public class AccountList {
     }
 
     public boolean addAccount(Account acc){
-        for(int i = 0; i < accounts.size(); i++){
-            if(accounts.get(i).getUserName().equals(acc.getUserName())){
+        for(Account a : accounts){
+            if(a.getUserName().equals(acc.getUserName())){
                 return false;
             }
         }
@@ -22,9 +22,9 @@ public class AccountList {
     }
 
     public boolean checkAccount(String id, String password){
-        for(int i = 0; i < accounts.size(); i++){
-            if(accounts.get(i).checkAccount(id, password)){
-                currentAccount = accounts.get(i);
+        for(Account a : accounts){
+            if(a.checkAccount(id, password)){
+                currentAccount = a;
                 return true;
             }
         }

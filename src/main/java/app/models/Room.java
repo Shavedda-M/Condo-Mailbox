@@ -8,31 +8,36 @@ public class Room {
     private String floor;
     private String roomNumber;
     private String roomType;
-    private ArrayList<Guest> guestList;
     private int capacity;
+    private ArrayList<String> guestNameList;
 
     public Room(String building, String floor, String roomNumber, String roomType) {
         this.building = building;
         this.floor = floor;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
-        guestList = new ArrayList<>();
+        if(roomType.equals("Single")){
+            this.capacity = 1;
+        }else if(roomType.equals("Double")){
+            this.capacity = 2;
+        }
+        guestNameList = new ArrayList<>();
     }
 
-    public Boolean findGuest(String name){
-        for(Guest g : guestList){
-            if(g.getName().equals(name)){
+    public Boolean findGuest(String guestName){
+        for(String n : guestNameList){
+            if(n.equals(guestName)){
                 return true;
             }
         }
         return false;
     }
 
-    public boolean addGuest(Guest guest){
-        if(guestList.size() >= capacity){
+    public boolean addGuest(String guestName){
+        if(guestNameList.size() >= capacity){
             return false;
         }
-        guestList.add(guest);
+        guestNameList.add(guestName);
         return true;
     }
 
@@ -54,10 +59,10 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Guest List = " + guestList +
-                "\nBuilding = " + building +
-                "\nFloor = " + floor +
-                "\nRoom Number = " + roomNumber +
-                "\nRoom Type = " + roomType;
+        return "Guest List = " + guestNameList +
+                " Building = " + building +
+                " Floor = " + floor +
+                " Room Number = " + roomNumber +
+                " Room Type = " + roomType + "\n";
     }
 }

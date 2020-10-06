@@ -1,7 +1,9 @@
 package app.controllers;
 
 import app.models.AccountList;
+import app.models.RoomList;
 import app.services.BrowseImage;
+import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -24,16 +28,18 @@ import java.io.IOException;
 
 public class PersonnelAddGuestPageController {
 
-    ObservableList<String> roomTypeList = FXCollections.observableArrayList("Single", "Double");
-    ObservableList<Integer> buildingList = FXCollections.observableArrayList(1, 2, 3);
-
     @FXML Button roomListBtn, accountSettingBtn, logoutBtn, manageItemsBtn, addItemBtn, addRoomBtn;
     @FXML Label userNameLabel;
     @FXML TextField nameField, roomField;
     @FXML ChoiceBox roomTypeChoiceBox, buildingChoiceBox;
     @FXML ImageView profileImageView;
 
+    ObservableList<String> roomTypeList = FXCollections.observableArrayList("Single", "Double");
+    ObservableList<Integer> buildingList = FXCollections.observableArrayList(1, 2, 3);
+
     private AccountList accounts;
+    private RoomList rooms;
+    private ReadWriteFile dataSource;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
@@ -50,8 +56,17 @@ public class PersonnelAddGuestPageController {
     public void setAccounts(AccountList accounts){
         this.accounts = accounts;
     }
-    @FXML public void handleAccountSettingBtnOnAction(ActionEvent event) throws IOException {
-        Button b = (Button) event.getSource();
+
+    public void setRooms(RoomList rooms){
+        this.rooms = rooms;
+    }
+
+    public void setDataSource(ReadWriteFile dataSource){
+        this.dataSource = dataSource;
+    }
+
+    @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
+        ImageView b = (ImageView) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/setting_page.fxml")
@@ -59,12 +74,14 @@ public class PersonnelAddGuestPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         SettingPageController setting = loader.getController();
         setting.setAccounts(accounts);
+        setting.setRooms(rooms);
+        setting.setDataSource(dataSource);
         setting.setPrevPage("PersonnelAddGuest");
         stage.show();
     }
 
-    @FXML public void handleLogoutBtnOnAction(ActionEvent event) throws IOException {
-        Button b = (Button) event.getSource();
+    @FXML public void handleLogoutImageOnAction(MouseEvent event) throws IOException {
+        ImageView b = (ImageView) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/login_page.fxml")
@@ -72,7 +89,46 @@ public class PersonnelAddGuestPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
         stage.show();
+    }
 
+    @FXML public void handleAccountSettingBtnOnAction(MouseEvent event) throws IOException {
+        Circle b = (Circle) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/setting_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        SettingPageController setting = loader.getController();
+        setting.setAccounts(accounts);
+        setting.setRooms(rooms);
+        setting.setDataSource(dataSource);
+        setting.setPrevPage("PersonnelAddGuest");
+        stage.show();
+    }
+
+    @FXML public void handleLogoutBtnOnAction(MouseEvent event) throws IOException {
+        Circle b = (Circle) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/login_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        LoginPageController login = loader.getController();
+        stage.show();
+    }
+
+    @FXML public void handleAddRoomBtnOnAction(ActionEvent event) throws IOException {
+        Button b = (Button) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/personnel_add_room_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelAddRoomPageController addRoom = loader.getController();
+        addRoom.setAccounts(accounts);
+        addRoom.setRooms(rooms);
+        addRoom.setDataSource(dataSource);
+        stage.show();
     }
 
     @FXML public void handleManageItemsBtnOnAction(ActionEvent event) throws IOException {
@@ -84,6 +140,8 @@ public class PersonnelAddGuestPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         PersonnelManageItemsPageController manageItems = loader.getController();
         manageItems.setAccounts(accounts);
+        manageItems.setRooms(rooms);
+        manageItems.setDataSource(dataSource);
         stage.show();
     }
 
@@ -96,6 +154,8 @@ public class PersonnelAddGuestPageController {
         stage.setScene(new Scene(loader.load(), 1024, 768));
         PersonnelRoomListPageController guestList = loader.getController();
         guestList.setAccounts(accounts);
+        guestList.setRooms(rooms);
+        guestList.setDataSource(dataSource);
         stage.show();
     }
 
@@ -121,5 +181,4 @@ public class PersonnelAddGuestPageController {
 
         }
     }
-
 }

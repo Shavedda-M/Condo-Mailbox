@@ -17,8 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class PersonnelRoomListPageController {
-    @FXML Button manageItemsBtn, addGuestBtn, accountSettingBtn, logoutBtn, addRoomBtn;
+public class PersonnelAddRoomPageController {
+
+    @FXML Button roomListBtn, manageItemsBtn, accountSettingBtn, logoutBtn, addGuestBtn, addRoomBtn;
     @FXML Label userNameLabel;
 
     private AccountList accounts;
@@ -57,7 +58,7 @@ public class PersonnelRoomListPageController {
         setting.setAccounts(accounts);
         setting.setRooms(rooms);
         setting.setDataSource(dataSource);
-        setting.setPrevPage("PersonnelRoomList");
+        setting.setPrevPage("PersonnelAddRoom");
         stage.show();
     }
 
@@ -83,7 +84,7 @@ public class PersonnelRoomListPageController {
         setting.setAccounts(accounts);
         setting.setRooms(rooms);
         setting.setDataSource(dataSource);
-        setting.setPrevPage("PersonnelRoomList");
+        setting.setPrevPage("PersonnelAddRoom");
         stage.show();
     }
 
@@ -95,20 +96,6 @@ public class PersonnelRoomListPageController {
         );
         stage.setScene(new Scene(loader.load(), 1024, 768));
         LoginPageController login = loader.getController();
-        stage.show();
-    }
-
-    @FXML public void handleManageItemsBtnOnAction(ActionEvent event) throws IOException {
-        Button b = (Button) event.getSource();
-        Stage stage = (Stage) b.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/personnel_manage_items_page.fxml")
-        );
-        stage.setScene(new Scene(loader.load(), 1024, 768));
-        PersonnelManageItemsPageController manageItems = loader.getController();
-        manageItems.setAccounts(accounts);
-        manageItems.setRooms(rooms);
-        manageItems.setDataSource(dataSource);
         stage.show();
     }
 
@@ -140,4 +127,35 @@ public class PersonnelRoomListPageController {
         stage.show();
     }
 
+    @FXML public void handleManageItemsBtnOnAction(ActionEvent event) throws IOException {
+        Button b = (Button) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/personnel_manage_items_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelManageItemsPageController manageItems = loader.getController();
+        manageItems.setAccounts(accounts);
+        manageItems.setRooms(rooms);
+        manageItems.setDataSource(dataSource);
+        stage.show();
+    }
+
+    @FXML public void handleRoomListBtnOnAction(ActionEvent event) throws IOException {
+        Button b = (Button) event.getSource();
+        Stage stage = (Stage) b.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/personnel_room_list_page.fxml")
+        );
+        stage.setScene(new Scene(loader.load(), 1024, 768));
+        PersonnelRoomListPageController guestList = loader.getController();
+        guestList.setAccounts(accounts);
+        guestList.setRooms(rooms);
+        guestList.setDataSource(dataSource);
+        stage.show();
+    }
+
+    @FXML public void handleConfirmBtnOnAction(){
+
+    }
 }

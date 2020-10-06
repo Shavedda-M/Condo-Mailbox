@@ -9,14 +9,6 @@ public class Document extends Item implements Items{
         this.priority = priority;
     }
 
-    @Override
-    public boolean checkItem(Room room, String senderName) {
-        if((getRoom().equals(room)) && (getSenderName().equals(senderName))){
-            return true;
-        }
-        return false;
-    }
-
     public String getPriority() {
         return priority;
     }
