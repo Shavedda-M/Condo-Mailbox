@@ -1,6 +1,7 @@
-#Project Application
+# Project Application
+---
 
-##Setup
+## Setup
 
 1. Open Link [Project Link](https://bitbucket.org/6210402461/6210402461/src/master/)
 2. Click Button "Clone"
@@ -13,23 +14,23 @@
 9. Open launcher folder
 10. Open file 6210402461.jar
 
-``` bash
+```
 # Clone File
 $ git clone https://Shavedda_M@bitbucket.org/6210402461/6210402461.git
 ```
 
 
-####** If you can't clone or can't find clone link
+#### ** If you can't clone or can't find clone link
 1. Go to [Project Link](https://bitbucket.org/6210402461/6210402461/src/master/)
 2. Click Button ••• then Select "Download repository"
 3. Open zip file
 4. Extract the file
 
-####** If you can't right-clicked but don't have "Git Bash Here"
+#### ** If you can't right-clicked but don't have "Git Bash Here"
 1. Open cmd the change directory to where you want to setup
 2. Paste clone link
 
-```shell script
+```
 # Example
 
 # Change Directory | Use "cd" to change directory
@@ -39,20 +40,21 @@ cd C:\Users\M S I\Downloads
 git clone https://Shavedda_M@bitbucket.org/6210402461/6210402461.git
 ```
 
-####** If you double clicked but program won't launch
-#####Git Bash
+#### ** If you double clicked but program won't launch
+##### Git Bash
 1. Right-click then select "Git Bash Here"
 2. Type command
 
-``` bash
+```
 # Open File
 $ java -jar 6210402461.jar
 ```
-#####Command Prompt
+##### Command Prompt
 1. Open cmd the change directory to launcher folder in the file
 2. Type command
 
-``` shell script
+
+```
 # Example
 
 # Change Directory to launcher folder
@@ -61,8 +63,8 @@ cd C:\Work\Year 2\01418211 Software Construction\Lab\Project\6210402461\launcher
 # Open jar File
 java -jar 6210402461.jar
 ```
-
-##Project Structure
+---
+## Project Structure
 
 * .idea → เก็บไฟล์การตั้งค่า project ของ IntelliJ
 * data → เก็บข้อมูล csv สำหรับใช้ใน IntelliJ
@@ -85,19 +87,19 @@ java -jar 6210402461.jar
         * resources → เก็บข้อมูลไฟล์ fxml และ รูปภาพ
             * image → เก็บไฟล์รูปภาพ
 * target → ไว้เก็บข้อมูลที่ได้จากการ build
-
-##BuildLog
+---
+## BuildLog
 
 \+ Added [ เพิ่ม ] 
 
-\^ Improved / Fixed [ ปรับปรุง / แก้ไข ] 
+^ Improved / Fixed [ ปรับปรุง / แก้ไข ] 
 
 \# Mixed [ มีการแก้หลายอย่าง ]
 
-\~ Removed [ ลบ ]
+~ Removed [ ลบ ]
 
 
-[21/10/2020 13:30:24 AM] [ ]
+[20/10/2020 22:39:24 AM] [ ]
 
 * \+ Added More Room to rooms.csv
 * \+ Added More Item to items.csv
@@ -141,15 +143,15 @@ java -jar 6210402461.jar
     * PersonnelRoomListPageController
     * PersonnelManagaItemPageController
     * GuestItemListPageController
-* \^ Updated UI Button
-* \^ Improved Change Password in SettingChangePasswordPageController
-* \^ Change Controller Filename
+* ^ Updated UI Button
+* ^ Improved Change Password in SettingChangePasswordPageController
+* ^ Change Controller Filename
     * { PersonnelAddPackagePageController.java → PersonnelAddParcelPageController.java } 
-* \^ Update ReadWriteFile to match new added Function
-* \^ Change Model name
+* ^ Update ReadWriteFile to match new added Function
+* ^ Change Model name
     * { Package → Parcel }
-* \^ Update AddRoom Fuction to match Room Number pattern
-* \~ Removed Browse Image from PersonnelAddGuestController
+* ^ Update AddRoom Fuction to match Room Number pattern
+* ~ Removed Browse Image from PersonnelAddGuestController
 
 
 [06/10/2020 02:07:43 PM] [fa67887]
@@ -158,15 +160,15 @@ java -jar 6210402461.jar
     * rooms.csv
 * \+ Added Services
     * ReadWriteFile
-* \^ Improved TableView Column
+* ^ Improved TableView Column
     * AdminPersonnelListController
     * PersonnelManageItemController
     * PersonnelRoomListController
     * GuestItemListController
-* \^ Improved UI
-* \^ Improved Project Structure
+* ^ Improved UI
+* ^ Improved Project Structure
 * \# Update Controller
-    * \^ Change Controller Filename
+    * ^ Change Controller Filename
         * Personnel
             * { PersonnelAddItemPageController.java → PersonnelAddDocumentPageController.java } 
     * \+ Added Controller
@@ -176,16 +178,16 @@ java -jar 6210402461.jar
             * PersonnelAddMailPageController
             * PersonnelAddPackagePageController
 * \# Update fxml
-    * \^ Change fxml Filename
+    * ^ Change fxml Filename
         * { personnel_add_item_page.fxml → personnel_add_document_page.fxml } 
     * \+ Added fxml
         * personnel_add_room_page
         * personnel_select_add_item_page
         * personnel_add_mail_page
         * personnel_add_package_page
-* \~ Removed Interface
+* ~ Removed Interface
     * Items
-* \~ Removed Services
+* ~ Removed Services
     * ReadFile
 
 [28/09/2020 01:02:32 PM] [f2ce2f9]
@@ -205,7 +207,7 @@ java -jar 6210402461.jar
     * SettingPageController
     * SettingChangePasswordPageController
     * SettingProfilePageController
-* \^ Improved BrowseImage
+* ^ Improved BrowseImage
     * AdminAddPersonnelController
     * PersonnelAddItemController
     * PersonnelAddGuestController
@@ -230,9 +232,9 @@ java -jar 6210402461.jar
     * PersonnelAddGuestController
     * RegisterPageController
     * SettingProfilePageController
-* \^ Resize Project
+* ^ Resize Project
     * [ 800 x 600 --->  1024 x 768 ]
-* \^ Change Controller Filename
+* ^ Change Controller Filename
     * Admin
         * { AddPersonnelPageController → AdminAddPersonnelPageController }
         * { PersonnelListPageController → AdminPersonnelListPageController }
@@ -246,7 +248,7 @@ java -jar 6210402461.jar
     * Setting
         * { ProfilePageController → SettingProfilePageController }
         * { ChangePasswordPageController → SettingChangePasswordPageController }
-* \^ Change fxml Filename
+* ^ Change fxml Filename
     * { add_personnel_page.fxml → admin_add_personnel_page.fxml }
     * { personnel_list_page.fxml → admin_personnel_list_page.fxml }
     * { add_guest_page.fxml → personnel_add_guest_page.fxml }
