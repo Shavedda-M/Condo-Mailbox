@@ -1,5 +1,7 @@
 package app.models;
 
+import app.exceptions.BannedAccountException;
+
 public class Account implements Accounts {
 
     private String userName;
@@ -15,7 +17,7 @@ public class Account implements Accounts {
     }
 
     @Override
-    public boolean checkAccount(String id, String password) {
+    public boolean checkAccount(String id, String password) throws BannedAccountException {
         if(id.equals(getUserName()) && password.equals(getPassword())){
             return true;
         }

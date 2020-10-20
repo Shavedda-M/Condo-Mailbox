@@ -1,13 +1,21 @@
 package app.services;
 
 import app.models.*;
+import app.models.Parcel;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class ReadWriteFile {
 
     private AccountList accounts;
     private RoomList rooms = new RoomList();
+    private ItemList items = new ItemList();
     private String fileDirectoryName;
     private String fileName;
 
@@ -43,12 +51,13 @@ public class ReadWriteFile {
         }
     }
 
-    private void readAccountData() throws IOException {
+    private void readAccountData() throws IOException, ParseException {
         String filePath = fileDirectoryName + File.separator + fileName;
         File file = new File(filePath);
         FileReader fileReader = new FileReader(file);
         BufferedReader reader = new BufferedReader(fileReader);
         String line = "";
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         while ((line = reader.readLine()) != null) {
             String[] data = line.split(",");
             String accountType = data[0];
@@ -60,8 +69,10 @@ public class ReadWriteFile {
                 accounts.addAccount(ac);
             }else if (accountType.equals("personnel")) {
                 String status = data[4];
-                int tryLogin = Integer.parseInt(data[5]);
-                Account ac = new Personnel(name, userName, password, status, tryLogin);
+                String date = data[5];
+                Date lastLoginTime = formatter.parse(date);
+                int tryLogin = Integer.parseInt(data[6]);
+                Account ac = new Personnel(name, userName, password, status, lastLoginTime, tryLogin);
                 accounts.addAccount(ac);
             }else if (accountType.equals("guest")) {
                 String building = data[4];
@@ -80,6 +91,8 @@ public class ReadWriteFile {
             System.err.println(this.fileName + " not found");
         } catch (IOException e) {
             System.err.println("IOException from reading " + this.fileName);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return accounts;
     }
@@ -88,6 +101,7 @@ public class ReadWriteFile {
         String filePath = fileDirectoryName + File.separator + fileName;
         File file = new File(filePath);
         FileWriter fileWriter = null;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
             fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter);
@@ -100,13 +114,25 @@ public class ReadWriteFile {
                     writer.append(line);
                 }else if(account.getAccountType().equals("personnel")){
                     Personnel per = (Personnel) account;
-                    String line = per.getAccountType() + ","
+                    if (per.getLastLoginTime().equals(null)) {
+                        String line = per.getAccountType() + ","
                                 + per.getName() + ","
                                 + per.getUserName() + ","
                                 + per.getPassword() + ","
                                 + per.getStatus() + ","
+                                + "00/00/0000 00:00:00" + ","
                                 + per.getTryLogin();
-                    writer.append(line);
+                        writer.append(line);
+                    }else{
+                        String line = per.getAccountType() + ","
+                                + per.getName() + ","
+                                + per.getUserName() + ","
+                                + per.getPassword() + ","
+                                + per.getStatus() + ","
+                                + formatter.format(per.getLastLoginTime()) + ","
+                                + per.getTryLogin();
+                        writer.append(line);
+                    }
                 }else if(account.getAccountType().equals("guest")){
                     Guest guest = (Guest) account;
                     String line = guest.getAccountType() + ","
@@ -141,8 +167,8 @@ public class ReadWriteFile {
             for(int i = 4; i < data.length; i++){
                 String guestName = data[i];
                 room.addGuest(guestName);
-            rooms.addRoom(room);
             }
+            rooms.addRoom(room);
         }
         reader.close();
     }
@@ -156,6 +182,164 @@ public class ReadWriteFile {
             System.err.println("IOException from reading " + this.fileName);
         }
         return rooms;
+    }
+
+    public void setRoomData(RoomList rooms){
+        String filePath = fileDirectoryName + File.separator + fileName;
+        File file = new File(filePath);
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+            for (Room room : rooms.toList()) {
+                String line = room.getBuilding() + ","
+                            + room.getFloor() + ","
+                            + room.getRoomNumber() + ","
+                            + room.getRoomType();
+                            if(room.getGuestNameList().size() > 0){
+                                line += "," + room.getGuestName();
+                            }
+                writer.append(line);
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Cannot write " + filePath);
+        }
+    }
+
+    private void readItemData() throws IOException, ParseException {
+        String filePath = fileDirectoryName + File.separator + fileName;
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fileReader);
+        String line = "";
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        while ((line = reader.readLine()) != null) {
+            String[] data = line.split(",");
+            String itemType = data[0];
+            String recipient = data[1];
+            String building = data[2];
+            String roomNumber = data[3];
+            String sender = data[4];
+            String size = data[5];
+            String receivingPersonnel = data[6];
+            Date dateReceived = formatter.parse(data[7]);
+            if (itemType.equals("mail")) {
+                String status = data[8];
+                if(status.equals("Received")){
+                    Date pickupDate = formatter.parse(data[9]);
+                    Item item = new Item(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, pickupDate);
+                    items.addItem(item);
+                }else{
+                    Item item = new Item(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status);
+                    items.addItem(item);
+                }
+            }else if (itemType.equals("document")) {
+                String priority = data[8];
+                String status = data[9];
+                if(status.equals("Received")){
+                    Date pickupDate = formatter.parse(data[10]);
+                    Item item = new Document(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, priority, pickupDate);
+                    items.addItem(item);
+                }else{
+                    Item item = new Document(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, priority);
+                    items.addItem(item);
+                }
+
+            }else if (itemType.equals("parcel")) {
+                String serviceName = data[8];
+                String trackingNumeber = data[9];
+                String status = data[10];
+                if(status.equals("Received")){
+                    Date pickupDate = formatter.parse(data[11]);
+                    Item item = new Parcel(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, serviceName,trackingNumeber, pickupDate);
+                    items.addItem(item);
+                }else{
+                    Item item = new Parcel(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, serviceName,trackingNumeber);
+                    items.addItem(item);
+                }
+            }
+        }
+        reader.close();
+    }
+
+    public ItemList getItemData() {
+        try {
+            readItemData();
+        } catch (FileNotFoundException e) {
+            System.err.println(this.fileName + " not found");
+        } catch (IOException e) {
+            System.err.println("IOException from reading " + this.fileName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
+    public void setItemData(ItemList items){
+        String filePath = fileDirectoryName + File.separator + fileName;
+        File file = new File(filePath);
+        FileWriter fileWriter = null;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            fileWriter = new FileWriter(file);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+            for (Item item : items.toList()) {
+                if(item.getItemType().equals("mail")){
+                    String line = item.getItemType() + ","
+                                + item.getRecipient() + ","
+                                + item.getRoom().getBuilding() + ","
+                                + item.getRoom().getRoomNumber() + ","
+                                + item.getSenderName() + ","
+                                + item.getSize() + ","
+                                + item.getReceivingPersonnel() + ","
+                                + formatter.format(item.getDateReceived()) + ","
+                                + item.getStatus();
+                    if(item.getStatus().equals("Received")){
+                        line += "," + formatter.format(item.getPickupDate());
+                    }
+                    writer.append(line);
+                }else if(item.getItemType().equals("document")){
+                    Document doc = (Document) item;
+                    String line = doc.getItemType() + ","
+                                + doc.getRecipient() + ","
+                                + doc.getRoom().getBuilding() + ","
+                                + doc.getRoom().getRoomNumber() + ","
+                                + doc.getSenderName() + ","
+                                + doc.getSize() + ","
+                                + doc.getReceivingPersonnel() + ","
+                                + formatter.format(doc.getDateReceived()) + ","
+                                + doc.getPriority() + ","
+                                + doc.getStatus();
+                    if(doc.getStatus().equals("Received")){
+                        line += "," + formatter.format(doc.getPickupDate());
+                    }
+                    writer.append(line);
+                }else if(item.getItemType().equals("parcel")){
+                    Parcel par = (Parcel) item;
+                    String line = par.getItemType() + ","
+                                + par.getRecipient() + ","
+                                + par.getRoom().getBuilding() + ","
+                                + par.getRoom().getRoomNumber() + ","
+                                + par.getSenderName() + ","
+                                + par.getSize() + ","
+                                + par.getReceivingPersonnel() + ","
+                                + formatter.format(par.getDateReceived())  + ","
+                                + par.getServiceName()  + ","
+                                + par.getTrackingNumber() + ","
+                                + par.getStatus();
+                    if(par.getStatus().equals("Received")){
+                        line += "," + formatter.format(par.getPickupDate());
+                    }
+                    writer.append(line);
+                }
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Cannot write " + filePath);
+        }
     }
 
 }

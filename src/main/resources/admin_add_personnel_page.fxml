@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #28293d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.AdminAddPersonnelPageController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #28293d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.admin.AdminAddPersonnelPageController">
    <children>
       <VBox layoutY="128.0" prefHeight="640.0" prefWidth="210.0" style="-fx-border-color: #28293d; -fx-background-color: #1c1c28;">
          <children>
@@ -63,16 +63,22 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <PasswordField fx:id="passwordField" layoutX="483.0" layoutY="320.0" prefHeight="40.0" prefWidth="327.0" />
       <Label layoutX="288.0" layoutY="385.0" text="Confirm Password" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="confirmBtn" layoutX="586.0" layoutY="662.0" mnemonicParsing="false" onAction="#handleConfirmBtnOnAction" style="-fx-background-color: #06c270;" text="Confirm" textFill="WHITE">
+      <PasswordField fx:id="passwordConfirmField" layoutX="483.0" layoutY="380.0" prefHeight="40.0" prefWidth="327.0" />
+      <Label layoutX="401.0" layoutY="490.0" text="Image" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
-      </Button>
+      </Label>
+      <ImageView fx:id="profileImageView" fitHeight="140.0" fitWidth="135.0" layoutX="483.0" layoutY="440.0" pickOnBounds="true">
+         <image>
+            <Image url="@Image/default%20profile.jpg" />
+         </image></ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1c1c28" height="130.0" stroke="#1c1c28" strokeType="INSIDE" width="1024.0">
          <effect>
             <Lighting>
@@ -99,20 +105,6 @@
          <effect>
             <Glow />
          </effect>
-      </Label>
-      <ImageView fx:id="profileImageView" fitHeight="140.0" fitWidth="135.0" layoutX="483.0" layoutY="440.0" pickOnBounds="true">
-         <image>
-            <Image url="@Image/default%20profile.jpg" />
-         </image></ImageView>
-      <Button fx:id="browseImageBtn" layoutX="545.0" layoutY="593.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: #ebebf0;" text="Browse" textFill="#28293d">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Button>
-      <Label layoutX="401.0" layoutY="490.0" text="Image" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
       </Label>
       <Circle fill="#555770" layoutX="806.0" layoutY="54.0" onMouseClicked="#handleAccountSettingBtnOnAction" radius="30.0" stroke="BLACK" strokeType="INSIDE">
          <effect>
@@ -164,7 +156,60 @@
             <Glow />
          </effect>
       </Label>
-      <PasswordField fx:id="passwordField" layoutX="483.0" layoutY="320.0" prefHeight="40.0" prefWidth="327.0" />
-      <PasswordField fx:id="passwordConfirmField" layoutX="483.0" layoutY="380.0" prefHeight="40.0" prefWidth="327.0" />
+      <Label fx:id="errorLabel" layoutX="483.0" layoutY="638.0" text="* Required" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="nameError" layoutX="821.0" layoutY="192.0" text="*" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="usernameError" layoutX="821.0" layoutY="252.0" text="*" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordError" layoutX="821.0" layoutY="312.0" text="*" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordConfirmError" layoutX="821.0" layoutY="372.0" text="*" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="confirmBtn" layoutX="586.0" layoutY="673.0" mnemonicParsing="false" onAction="#handleConfirmBtnOnAction" style="-fx-background-color: #06c270;" text="Confirm" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="browseImageBtn" layoutX="545.0" layoutY="593.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
    </children>
 </AnchorPane>

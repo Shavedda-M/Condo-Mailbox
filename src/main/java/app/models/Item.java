@@ -1,31 +1,84 @@
 package app.models;
 
-public class Item implements Items{
+import java.util.Date;
 
+public class Item{
+
+    private String itemType;
+    private String recipient;
     private Room room;
     private String senderName;
-    private double size;
+    private String size;
+    private String receivingPersonnel;
+    private Date dateReceived;
+    private String status;
+    private Date pickupDate;
 
-    public Item(Room room, String senderName, double size) {
+    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String status) {
+        this.itemType = itemType;
+        this.recipient = recipient;
         this.room = room;
         this.senderName = senderName;
         this.size = size;
+        this.receivingPersonnel = receivingPersonnel;
+        this.dateReceived = dateReceived;
+        this.status = status;
     }
 
-    @Override
-    public boolean checkItem(Room room, String senderName) {
-        if((getRoom().equals(room)) && (getSenderName().equals(senderName))){
+    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String status, Date pickupDate) {
+        this.itemType = itemType;
+        this.recipient = recipient;
+        this.room = room;
+        this.senderName = senderName;
+        this.size = size;
+        this.receivingPersonnel = receivingPersonnel;
+        this.dateReceived = dateReceived;
+        this.status = status;
+        this.pickupDate = pickupDate;
+    }
+
+    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived) {
+        this.itemType = itemType;
+        this.recipient = recipient;
+        this.room = room;
+        this.senderName = senderName;
+        this.size = size;
+        this.receivingPersonnel = receivingPersonnel;
+        this.dateReceived = dateReceived;
+        this.status = "Not Received";
+    }
+
+    public boolean checkGuest(Guest guest){
+        if(recipient.equals(guest.getName()) && room.equals(guest.getRoom())){
             return true;
         }
         return false;
+    }
+
+    public void changeStatus(){
+        if(status.equals("Not Received")){
+            this.status = "Received";
+        }
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public Date getDateReceived() {
+        return dateReceived;
     }
 
     public Room getRoom() {
         return room;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
     }
 
     public String getSenderName() {
@@ -36,11 +89,42 @@ public class Item implements Items{
         this.senderName = senderName;
     }
 
-    public double getSize() {
+    public String getItemType() {
+        return itemType;
+    }
+
+    public String getSize() {
         return size;
     }
 
-    public void setSize(double size) {
+    public String getStatus() {
+        return status;
+    }
+
+    public Date getPickupDate() {
+        return pickupDate;
+    }
+
+    public void setPickupDate(Date pickupDate) {
+        this.pickupDate = pickupDate;
+    }
+
+    public void setSize(String size) {
         this.size = size;
+    }
+
+    public String getReceivingPersonnel() {
+        return receivingPersonnel;
+    }
+
+    @Override
+    public String toString() {
+        return  "ItemType = " + itemType + " | " +
+                "Recipient = " + recipient + " | " +
+                "Room =  " + room.getRoomNumber() + " | " +
+                "SenderName = " + senderName + " | " +
+                "Size = " + size + " | " +
+                "DateReceived = " + dateReceived + " | " +
+                "Status = " + status + "\n";
     }
 }

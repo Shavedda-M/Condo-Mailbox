@@ -1,13 +1,12 @@
 package app.services;
 
-import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 
 public class BrowseImage {
 
-    public static FileChooser Browse(){
+    public FileChooser Browse(){
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Browse Image");

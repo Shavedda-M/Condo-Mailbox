@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #28293d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.AdminPersonnelListPageController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #28293d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.admin.AdminPersonnelListPageController">
    <children>
       <VBox layoutY="128.0" prefHeight="640.0" prefWidth="210.0" style="-fx-border-color: #28293d; -fx-background-color: #1c1c28;">
          <children>
@@ -45,7 +45,7 @@
             </Button>
          </children>
       </VBox>
-      <TableView fx:id="personnelTable" layoutX="215.0" layoutY="137.0" prefHeight="623.0" prefWidth="409.0" />
+      <TableView fx:id="personnelTable" layoutX="215.0" layoutY="137.0" prefHeight="623.0" prefWidth="428.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1c1c28" height="130.0" stroke="BLACK" strokeType="INSIDE" width="1024.0">
          <effect>
             <Lighting>
@@ -123,62 +123,62 @@
             <Glow />
          </effect>
       </Label>
-      <ImageView fx:id="perImageView" fitHeight="170.0" fitWidth="200.0" layoutX="730.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="perImageView" fitHeight="208.0" fitWidth="200.0" layoutX="738.0" layoutY="161.0" pickOnBounds="true">
          <image>
             <Image url="@Image/default%20profile.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="667.0" layoutY="385.0" text="Name :" textFill="WHITE">
+      <Label layoutX="675.0" layoutY="385.0" text="Name :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="667.0" layoutY="435.0" text="Username :" textFill="WHITE">
+      <Label layoutX="675.0" layoutY="435.0" text="Username :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="667.0" layoutY="585.0" text="Unauthorized login :" textFill="WHITE">
+      <Label layoutX="675.0" layoutY="585.0" text="Unauthorized login :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="667.0" layoutY="485.0" text="Password :" textFill="WHITE">
+      <Label layoutX="675.0" layoutY="485.0" text="Password :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="perNameLabel" layoutX="748.0" layoutY="385.0" text="..." textFill="WHITE">
+      <Label fx:id="perNameLabel" layoutX="756.0" layoutY="385.0" text="..." textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="perUsernameLabel" layoutX="787.0" layoutY="435.0" text="..." textFill="WHITE">
+      <Label fx:id="perUsernameLabel" layoutX="796.0" layoutY="435.0" text="..." textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="perPasswordLabel" layoutX="779.0" layoutY="485.0" text="..." textFill="WHITE">
+      <Label fx:id="perPasswordLabel" layoutX="788.0" layoutY="485.0" text="..." textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="perTryLoginLabel" layoutX="874.0" layoutY="585.0" text="..." textFill="WHITE">
+      <Label fx:id="perTryLoginLabel" layoutX="882.0" layoutY="585.0" text="..." textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="667.0" layoutY="535.0" text="Status :" textFill="WHITE">
+      <Label layoutX="675.0" layoutY="535.0" text="Status :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="perStatusLabel" layoutX="748.0" layoutY="535.0" text="..." textFill="WHITE">
+      <Label fx:id="perStatusLabel" layoutX="756.0" layoutY="535.0" text="..." textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="changeStatusBtn" layoutX="847.0" layoutY="659.0" mnemonicParsing="false" onAction="#handleChangeStatusBtnOnAction" prefWidth="137.0" style="-fx-background-color: #00cfde;" text="Change Status" textFill="WHITE">
+      <Button fx:id="changeStatusBtn" layoutX="856.0" layoutY="654.0" mnemonicParsing="false" onAction="#handleChangeStatusBtnOnAction" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #00cfde;" text="Change Status" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -193,7 +193,7 @@
             </Lighting>
          </effect>
       </Button>
-      <Button fx:id="deleteAccountBtn" layoutX="665.0" layoutY="659.0" mnemonicParsing="false" onAction="#handleDeleteAccountBtnOnAction" style="-fx-background-color: #ff3b3b;" text="Delete Account" textFill="WHITE">
+      <Button fx:id="deleteAccountBtn" layoutX="676.0" layoutY="654.0" mnemonicParsing="false" onAction="#handleDeleteAccountBtnOnAction" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #ff3b3b;" text="Delete Account" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

@@ -1,5 +1,7 @@
 package app.models;
 
+import app.exceptions.RoomFullException;
+
 import java.util.ArrayList;
 
 public class Room {
@@ -21,7 +23,19 @@ public class Room {
         }else if(roomType.equals("Double")){
             this.capacity = 2;
         }
-        guestNameList = new ArrayList<>();
+        guestNameList = new ArrayList<String>(){
+            @Override
+            public String toString(){
+                String line = "";
+                for(int i = 0; i < guestNameList.size(); i++){
+                    line += guestNameList.get(i);
+                    if(i < guestNameList.size() - 1) {
+                        line += ", ";
+                    }
+                }
+                return line;
+            }
+        };
     }
 
     public Boolean findGuest(String guestName){
@@ -33,12 +47,16 @@ public class Room {
         return false;
     }
 
-    public boolean addGuest(String guestName){
+    public boolean checkAvailable(String guestName) throws RoomFullException {
         if(guestNameList.size() >= capacity){
-            return false;
+            throw new RoomFullException();
         }
-        guestNameList.add(guestName);
+        addGuest(guestName);
         return true;
+    }
+
+    public void addGuest(String guestName){
+        guestNameList.add(guestName);
     }
 
     public String getBuilding() {
@@ -57,12 +75,25 @@ public class Room {
         return roomType;
     }
 
+    public ArrayList<String> getGuestNameList() {
+        return guestNameList;
+    }
+
+    public String getGuestName() {
+        String line = "";
+        for(int i = 0; i < guestNameList.size(); i++){
+            if(i == guestNameList.size() - 1){
+                line += guestNameList.get(i);
+            }else{
+                line += guestNameList.get(i);
+                line += ",";
+            }
+        }
+        return line;
+    }
+
     @Override
     public String toString() {
-        return "Guest List = " + guestNameList +
-                " Building = " + building +
-                " Floor = " + floor +
-                " Room Number = " + roomNumber +
-                " Room Type = " + roomType + "\n";
+        return roomNumber;
     }
 }

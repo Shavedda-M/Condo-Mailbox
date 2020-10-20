@@ -19,9 +19,9 @@ public class Guest extends Account implements Accounts {
 
     @Override
     public String toString() {
-        return  "Name = " + super.getName() + ", " +
-                "Username = " + super.getUserName() + ", " +
-                "Password = " + super.getPassword() + ", " +
+        return  "Name = " + super.getName() + " | " +
+                "Username = " + super.getUserName() + " | " +
+                "Password = " + super.getPassword() + " | " +
                 "Room = " + room.getRoomNumber() + "\n";
     }
 
