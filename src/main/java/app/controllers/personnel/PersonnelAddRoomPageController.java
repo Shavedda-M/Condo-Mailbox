@@ -79,6 +79,13 @@ public class PersonnelAddRoomPageController {
         roomTypeError.setVisible(false);
     }
 
+    public void resetField(){
+        buildingChoiceBox.setValue(null);
+        roomTypeChoiceBox.setValue(null);
+        roomNumberChoiceBox.setValue(null);
+        floorChoiceBox.setValue(null);
+    }
+
     @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
         ImageView b = (ImageView) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
@@ -189,7 +196,7 @@ public class PersonnelAddRoomPageController {
 
     @FXML public void handleConfirmBtnOnAction() throws IOException {
         setAllErrorDisable();
-        if(!(buildingChoiceBox.getValue() == null) && !floorChoiceBox.getValue().equals("") && !(roomNumberChoiceBox.getValue() == null) && !(roomTypeChoiceBox.getValue() == null)){
+        if(!(buildingChoiceBox.getValue() == null) && !(floorChoiceBox.getValue() == null) && !(roomNumberChoiceBox.getValue() == null) && !(roomTypeChoiceBox.getValue() == null)){
             if(roomNumberChoiceBox.getValue().toString().equals("10")){
                 roomNumber = buildingChoiceBox.getValue().toString() + floorChoiceBox.getValue().toString() + roomNumberChoiceBox.getValue().toString();
             }else{
@@ -208,9 +215,13 @@ public class PersonnelAddRoomPageController {
                 NotificationPopupController noti = loader.getController();
                 noti.setTextLabel("Create Successful");
                 popup.showAndWait();
+
+                resetField();
             }else{
                 errorLabel.setVisible(true);
-                errorLabel.setText("* This room number has already been used");
+                errorLabel.setText("* This room has already been used");
+                buildingError.setVisible(true);
+                floorError.setVisible(true);
                 roomNumberError.setVisible(true);
             }
         }else{

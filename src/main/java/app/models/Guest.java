@@ -4,8 +4,8 @@ public class Guest extends Account implements Accounts {
 
     private Room room;
 
-    public Guest(String name, String userName, String password, Room room){
-        super(name, userName, password, "guest");
+    public Guest(String name, String userName, String password, Room room, String imageFileName){
+        super(name, userName, password, "guest", imageFileName);
         this.room = room;
     }
 

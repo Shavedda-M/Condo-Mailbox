@@ -203,7 +203,7 @@
       </ImageView>
       <ImageView fx:id="parcelImageView" fitHeight="117.0" fitWidth="117.0" layoutX="560.0" layoutY="505.0" onMouseClicked="#handleAddPackageImageOnAction" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Image/package%20icon.png" />
+            <Image url="@Image/parcel%20icon.png" />
          </image>
       </ImageView>
    </children>

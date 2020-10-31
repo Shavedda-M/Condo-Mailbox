@@ -65,6 +65,20 @@ public class RoomList {
         return null;
     }
 
+    public ArrayList<Room> getGuestNameSearchRoomList(String guestName){
+        ArrayList<Room> searchRoom = new ArrayList<>();
+        for(Room r : rooms){
+            for(String s : r.getGuestNameList()){
+                if(s.toLowerCase().contains(guestName.toLowerCase())){
+                    searchRoom.add(r);
+                    break;
+                }
+            }
+
+        }
+        return searchRoom;
+    }
+
     public ArrayList<Room> toList(){
         return  rooms;
     }

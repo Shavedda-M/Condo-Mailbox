@@ -152,21 +152,6 @@
             <Glow />
          </effect>
       </Label>
-      <Button fx:id="checkInfoBtn" layoutX="734.0" layoutY="630.0" mnemonicParsing="false" onAction="#handleCheckInfoBtnOnAction" prefHeight="42.0" prefWidth="228.0" style="-fx-background-color: #ff8800;" text="Check Info" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-         <effect>
-            <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect>
-      </Button>
       <ImageView fx:id="itemImageView" fitHeight="182.0" fitWidth="200.0" layoutX="745.0" layoutY="171.0" pickOnBounds="true">
          <image>
             <Image url="@Image/mail%20default.png" />
@@ -212,7 +197,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="changeTableBtn" layoutX="734.0" layoutY="695.0" mnemonicParsing="false" onAction="#handleChangeTableBtnOnAction" prefHeight="42.0" prefWidth="228.0" style="-fx-background-color: #3E7BFA;" text="Recieved / Not Received" textFill="WHITE">
+      <Button fx:id="changeTableBtn" layoutX="734.0" layoutY="695.0" mnemonicParsing="false" onAction="#handleChangeTableBtnOnAction" prefHeight="42.0" prefWidth="228.0" style="-fx-background-color: #3E7BFA;" text="Received / Not Received" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -251,6 +236,36 @@
       <Button fx:id="addItemBtn" layoutX="400.0" layoutY="709.0" mnemonicParsing="false" onAction="#handleAddItemBtnOnAction" prefHeight="35.0" prefWidth="69.0" style="-fx-background-color: #06c270;" text="Add" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="receiveBtn" layoutX="862.0" layoutY="631.0" mnemonicParsing="false" onAction="#handleRecieveBtnOnAction" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #06c270;" text="Receive" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="checkInfoBtn" layoutX="690.0" layoutY="631.0" mnemonicParsing="false" onAction="#handleCheckInfoBtnOnAction" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #ff8800;" text="Check Info" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
          </font>
          <effect>
             <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">

@@ -25,7 +25,7 @@ public class AccountList {
         return true;
     }
 
-    public boolean checkUsernameAvaliable(String username) throws UsernameNotAvailableException {
+    public boolean checkUsernameAvailable(String username) throws UsernameNotAvailableException {
         for(Account a : accounts){
             if(a.getUserName().equals(username)){
                 throw new UsernameNotAvailableException();
@@ -43,6 +43,18 @@ public class AccountList {
         }
         currentAccount = null;
         throw new NoAccountFoundException();
+    }
+
+    public Guest findGuestAccount(String name, String roomNumber){
+        for(Account a : accounts){
+            if(a.getAccountType().equals("guest")){
+                Guest g = (Guest)a;
+                if(g.getName().equals(name) && g.getRoom().getRoomNumber().equals(roomNumber)){
+                    return g;
+                }
+            }
+        }
+        return null;
     }
 
     public ArrayList<Personnel> getPersonnelAccountList(){

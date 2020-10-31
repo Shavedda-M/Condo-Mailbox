@@ -7,6 +7,7 @@ import app.controllers.popup.NotificationPopupController;
 import app.exceptions.BannedAccountException;
 import app.exceptions.NoAccountFoundException;
 import app.models.*;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,11 +17,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class LoginPageController {
@@ -28,11 +34,15 @@ public class LoginPageController {
     @FXML private TextField userNameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
+    @FXML private MediaView mediaView;
+    @FXML private ImageView createrInfoBtn;
 
     private AccountList accounts = new AccountList();
     private RoomList rooms = new RoomList();
     private ItemList items;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
+    private MediaPlayer mediaPlayer;
 
     @FXML private void initialize() throws IOException {
         dataSource = new ReadWriteFile("data", "rooms.csv");
@@ -41,6 +51,13 @@ public class LoginPageController {
         accounts = dataSource.getAccountsData();
         dataSource.setFileName("items.csv");
         items = dataSource.getItemData();
+        imageService = new ImageService();
+        Media media = new Media(imageService.getImagePath("classes/Image", "P'To Dance.mp4"));
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.15);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(99);
+        mediaView.setMediaPlayer(mediaPlayer);
     }
 
     @FXML public void handleLoginBtnOnAction(ActionEvent event) throws IOException {
@@ -56,6 +73,7 @@ public class LoginPageController {
                     AdminHomePageController adminPage = loader.getController();
                     adminPage.setAccounts(accounts);
                     adminPage.setRooms(rooms);
+                    mediaPlayer.stop();
                 } else if (accounts.getCurrentAccount().getAccountType().equals("personnel")) {
                     Personnel per = (Personnel)accounts.getCurrentAccount();
                     per.setLastLoginTime(new Date());
@@ -71,6 +89,7 @@ public class LoginPageController {
                     personnelPage.setAccounts(accounts);
                     personnelPage.setRooms(rooms);
                     personnelPage.setItems(items);
+                    mediaPlayer.stop();
                 } else if (accounts.getCurrentAccount().getAccountType().equals("guest")) {
                     FXMLLoader loader = new FXMLLoader(
                             getClass().getResource("/guest_home_page.fxml")
@@ -80,6 +99,7 @@ public class LoginPageController {
                     guestPage.setAccounts(accounts);
                     guestPage.setRooms(rooms);
                     guestPage.setItems(items);
+                    mediaPlayer.stop();
                 }
                 stage.show();
             }
@@ -102,6 +122,7 @@ public class LoginPageController {
     }
 
     @FXML public void handleRegisterBtnOnAction(ActionEvent event) throws IOException {
+        mediaPlayer.stop();
         Button b = (Button) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(
@@ -112,5 +133,16 @@ public class LoginPageController {
         regis.setAccounts(accounts);
         regis.setRooms(rooms);
         stage.show();
+    }
+
+    @FXML public void handleCreaterInfoBtnOnAction(MouseEvent event) throws IOException {
+
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setResizable(false);
+        FXMLLoader loader = new FXMLLoader
+                (getClass().getResource("/creater_popup.fxml"));
+        popup.setScene(new Scene(loader.load(), 600, 400));
+        popup.showAndWait();
     }
 }

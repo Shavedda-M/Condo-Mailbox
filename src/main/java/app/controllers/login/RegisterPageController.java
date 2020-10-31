@@ -4,6 +4,7 @@ import app.controllers.popup.NotificationPopupController;
 import app.exceptions.UsernameNotAvailableException;
 import app.models.*;
 import app.services.BrowseImage;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class RegisterPageController {
     @FXML private TextField userNameField, passwordField, passwordConfirmField, nameField, roomNumberField;
@@ -34,11 +36,15 @@ public class RegisterPageController {
     private AccountList accounts;
     private RoomList rooms;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
+    private File currentImageFile;
 
 
     @FXML private void initialize(){
         dataSource = new ReadWriteFile("data", "accounts.csv");
         buildingChoiceBox.setItems(buildingList);
+        currentImageFile = new File("classes/Image" + File.separator + "default profile.jpg");
+        imageService = new ImageService();
         setAllErrorDisable();
     }
 
@@ -83,10 +89,10 @@ public class RegisterPageController {
         setAllErrorDisable();
         if(!userNameField.getText().equals("") && !passwordField.getText().equals("") && !passwordConfirmField.getText().equals("") && !(buildingChoiceBox.getValue() == null) && !nameField.getText().equals("") && !roomNumberField.getText().equals("")) {
             try {
-                if (accounts.checkUsernameAvaliable(userNameField.getText())) {
+                if (accounts.checkUsernameAvailable(userNameField.getText())) {
                     if (passwordField.getText().equals(passwordConfirmField.getText())) {
                         if (rooms.checkRoom(nameField.getText(), buildingChoiceBox.getValue().toString(), roomNumberField.getText())) {
-                            Account ac = new Guest(nameField.getText(), userNameField.getText(), passwordField.getText(), rooms.findRoom(nameField.getText(), buildingChoiceBox.getValue().toString(), roomNumberField.getText()));
+                            Account ac = new Guest(nameField.getText(), userNameField.getText(), passwordField.getText(), rooms.findRoom(nameField.getText(), buildingChoiceBox.getValue().toString(), roomNumberField.getText()), imageService.copyImage("classes/Image", currentImageFile, "default profile.jpg"));
                             accounts.addAccount(ac);
                             dataSource.setAccountsData(accounts);
 
@@ -156,7 +162,7 @@ public class RegisterPageController {
     }
 
 
-    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){
+    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event) throws URISyntaxException {
 
         BrowseImage browseImage = new BrowseImage();
 
@@ -167,11 +173,12 @@ public class RegisterPageController {
 
         File file = fileChooser.showOpenDialog(stage);
         try{
+            currentImageFile = file;
             Image image = new Image(file.toURI().toString());
             profileImageView.setImage(image);
             profileImageView.setPreserveRatio(false);
-            profileImageView.setFitHeight(130);
-            profileImageView.setFitWidth(150);
+            profileImageView.setFitHeight(145);
+            profileImageView.setFitWidth(140);
         }catch (Exception ex){
 
         }

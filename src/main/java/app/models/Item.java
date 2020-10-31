@@ -13,8 +13,10 @@ public class Item{
     private Date dateReceived;
     private String status;
     private Date pickupDate;
+    private String imageFileName;
 
-    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String status) {
+    // With Image
+    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String status, String imageFileName) {
         this.itemType = itemType;
         this.recipient = recipient;
         this.room = room;
@@ -23,9 +25,10 @@ public class Item{
         this.receivingPersonnel = receivingPersonnel;
         this.dateReceived = dateReceived;
         this.status = status;
+        this.imageFileName = imageFileName;
     }
 
-    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String status, Date pickupDate) {
+    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String status, Date pickupDate, String imageFileName) {
         this.itemType = itemType;
         this.recipient = recipient;
         this.room = room;
@@ -35,9 +38,11 @@ public class Item{
         this.dateReceived = dateReceived;
         this.status = status;
         this.pickupDate = pickupDate;
+        this.imageFileName = imageFileName;
     }
+    //
 
-    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived) {
+    public Item(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date dateReceived, String imageFileName) {
         this.itemType = itemType;
         this.recipient = recipient;
         this.room = room;
@@ -46,6 +51,7 @@ public class Item{
         this.receivingPersonnel = receivingPersonnel;
         this.dateReceived = dateReceived;
         this.status = "Not Received";
+        this.imageFileName = imageFileName;
     }
 
     public boolean checkGuest(Guest guest){
@@ -59,10 +65,6 @@ public class Item{
         if(status.equals("Not Received")){
             this.status = "Received";
         }
-    }
-
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
     }
 
     public String getRecipient() {
@@ -115,6 +117,14 @@ public class Item{
 
     public String getReceivingPersonnel() {
         return receivingPersonnel;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package app.controllers.personnel;
 
 import app.controllers.login.LoginPageController;
+import app.controllers.popup.ItemInfoPopupController;
+import app.controllers.popup.NotificationPopupController;
+import app.controllers.popup.RoomInfoPopupController;
 import app.controllers.setting.SettingPageController;
 import app.models.*;
 import app.services.ReadWriteFile;
@@ -11,29 +14,30 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class PersonnelRoomListPageController {
 
-    @FXML private Button manageItemsBtn, addGuestBtn, accountSettingBtn, logoutBtn, addRoomBtn;
+    @FXML private Button manageItemsBtn, addGuestBtn, accountSettingBtn, logoutBtn, addRoomBtn, searchGuestBtn, editRoomBtn;
     @FXML private Label userNameLabel;
     @FXML private TableView<Room> roomTable;
+    @FXML private TextField guestNameSearchField;
+
 
     private AccountList accounts;
     private RoomList rooms;
     private ItemList items;
     private ReadWriteFile dataSource;
-    private Room selectedRoom;
+    private Room selectedRoom = null;
     private ObservableList<Room> roomObservableList;
 
 
@@ -65,6 +69,7 @@ public class PersonnelRoomListPageController {
         this.items = items;
     }
 
+
     private void showRoomList(){
         roomObservableList = FXCollections.observableArrayList(rooms.toList());
         roomTable.setItems(roomObservableList);
@@ -74,10 +79,11 @@ public class PersonnelRoomListPageController {
         buildingCol.setPrefWidth(85);
         TableColumn floorCol = new TableColumn("Floor");
         floorCol.setCellValueFactory(new PropertyValueFactory<>("floor"));
-        floorCol.setPrefWidth(70);
+        floorCol.setPrefWidth(80);
         TableColumn roomCol = new TableColumn("Room");
         roomCol.setCellValueFactory(new PropertyValueFactory<>("roomNumber"));
-        roomCol.setPrefWidth(80);
+        roomCol.setPrefWidth(90);
+        roomCol.setSortType(TableColumn.SortType.ASCENDING);
         TableColumn roomTypeCol = new TableColumn("Room Type");
         roomTypeCol.setCellValueFactory(new PropertyValueFactory<>("roomType"));
         roomTypeCol.setPrefWidth(100);
@@ -87,6 +93,36 @@ public class PersonnelRoomListPageController {
         allGuestCol.setSortable(false);
 
         roomTable.getColumns().addAll(buildingCol, floorCol, roomCol, roomTypeCol, allGuestCol);
+        roomTable.getSortOrder().add(roomCol);
+    }
+
+    private void showSearchGuestNameList(String roomNumber){
+        roomTable.getColumns().clear();
+
+        roomObservableList = FXCollections.observableArrayList(rooms.getGuestNameSearchRoomList(guestNameSearchField.getText()));
+        roomTable.setItems(roomObservableList);
+
+        TableColumn buildingCol = new TableColumn("Building");
+        buildingCol.setCellValueFactory(new PropertyValueFactory<>("building"));
+        buildingCol.setPrefWidth(85);
+        TableColumn floorCol = new TableColumn("Floor");
+        floorCol.setCellValueFactory(new PropertyValueFactory<>("floor"));
+        floorCol.setPrefWidth(80);
+        TableColumn roomCol = new TableColumn("Room");
+        roomCol.setCellValueFactory(new PropertyValueFactory<>("roomNumber"));
+        roomCol.setPrefWidth(90);
+        roomCol.setSortType(TableColumn.SortType.ASCENDING);
+        TableColumn roomTypeCol = new TableColumn("Room Type");
+        roomTypeCol.setCellValueFactory(new PropertyValueFactory<>("roomType"));
+        roomTypeCol.setPrefWidth(100);
+        TableColumn allGuestCol = new TableColumn("Guest List");
+        allGuestCol.setCellValueFactory(new PropertyValueFactory<>("guestNameList"));
+        allGuestCol.setPrefWidth(475);
+        allGuestCol.setSortable(false);
+
+        roomTable.getColumns().addAll(buildingCol, floorCol, roomCol, roomTypeCol, allGuestCol);
+        roomTable.getSortOrder().add(roomCol);
+
     }
 
     private void showSelectedRoom(Room room) {
@@ -185,6 +221,45 @@ public class PersonnelRoomListPageController {
         addGuest.setRooms(rooms);
         addGuest.setItems(items);
         stage.show();
+    }
+
+    @FXML public void handleSearchGuestNameBtnOnAction() throws IOException {
+        String searchGuestName = guestNameSearchField.getText();
+        if(searchGuestName.equals("")){
+            showRoomList();
+        }else{
+            showSearchGuestNameList(searchGuestName);
+        }
+    }
+
+    @FXML public void handleEditRoomBtnOnAction() throws IOException {
+
+        if (selectedRoom == null) {
+            Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.setResizable(false);
+            FXMLLoader loader = new FXMLLoader
+                    (getClass().getResource("/notification_popup.fxml"));
+            popup.setScene(new Scene(loader.load(), 290, 100));
+            NotificationPopupController noti = loader.getController();
+            noti.setTextLabel("Please select room");
+            popup.showAndWait();
+            selectedRoom = null;
+        }else{
+            Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.setResizable(false);
+            FXMLLoader loader = new FXMLLoader
+                    (getClass().getResource("/room_info_popup.fxml"));
+            popup.setScene(new Scene(loader.load(), 650, 450));
+            RoomInfoPopupController roomPop = loader.getController();
+            roomPop.setSelectRoom(selectedRoom);
+            roomPop.setRooms(rooms);
+            popup.showAndWait();
+            showRoomList();
+            selectedRoom = null;
+        }
+
     }
 
 }

@@ -7,18 +7,20 @@ public class Document extends Item{
 
     private String priority;
 
-    public Document(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String priority) {
-        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status);
+    //With Image
+    public Document(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String priority, String imageFileName) {
+        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status, imageFileName);
         this.priority = priority;
     }
 
-    public Document(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String priority, Date pickupDate) {
-        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status, pickupDate);
+    public Document(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String priority, Date pickupDate, String imageFileName) {
+        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status, pickupDate, imageFileName);
         this.priority = priority;
     }
+    //
 
-    public Document(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String priority) {
-        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate);
+    public Document(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String priority, String imageFileName) {
+        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, imageFileName);
         this.priority = priority;
     }
 

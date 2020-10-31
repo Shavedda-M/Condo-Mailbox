@@ -4,6 +4,7 @@ import app.controllers.login.LoginPageController;
 import app.controllers.popup.ItemInfoPopupController;
 import app.controllers.setting.SettingPageController;
 import app.models.*;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -28,7 +30,7 @@ import java.util.Date;
 
 public class PersonnelManageItemsPageController {
 
-    @FXML private Button accountSettingBtn, logoutBtn, addItemBtn, checkInfoBtn, changeViewBtn;
+    @FXML private Button accountSettingBtn, logoutBtn, addItemBtn, checkInfoBtn, changeTableBtn, receiveBtn;
     @FXML private Label userNameLabel, senderLabel, typeLabel, sizeLabel, dateReceivedLabel;
     @FXML private TextField roomSearchField;
     @FXML private TableView<Item> itemTable;
@@ -38,6 +40,7 @@ public class PersonnelManageItemsPageController {
     private RoomList rooms;
     private ItemList items;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
     private Item selectedItem;
     private String currentTableShow;
     private ArrayList<Item> showItem;
@@ -49,9 +52,11 @@ public class PersonnelManageItemsPageController {
             @Override
             public void run(){
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
+                imageService = new ImageService();
                 dataSource = new ReadWriteFile("data", "items.csv");
                 currentTableShow = "Not Received";
                 checkInfoBtn.setDisable(true);
+                receiveBtn.setDisable(true);
                 itemTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         showSelectedItem(newValue);
@@ -99,6 +104,7 @@ public class PersonnelManageItemsPageController {
             }
         });
         dateReceivedCol.setPrefWidth(145);
+        dateReceivedCol.setSortType(TableColumn.SortType.DESCENDING);
         TableColumn recipientCol = new TableColumn("Recipient");
         recipientCol.setCellValueFactory(new PropertyValueFactory<>("recipient"));
         recipientCol.setPrefWidth(110);
@@ -133,6 +139,7 @@ public class PersonnelManageItemsPageController {
         }else if(currentTableShow.equals("Received")){
             itemTable.getColumns().addAll(dateReceivedCol, recipientCol, roomCol, typeCol, statusCol, pickupDateCol);
         }
+        itemTable.getSortOrder().add(dateReceivedCol);
     }
 
     private void showSearchItemList(String roomNumber){
@@ -161,6 +168,7 @@ public class PersonnelManageItemsPageController {
             }
         });
         dateReceivedCol.setPrefWidth(145);
+        dateReceivedCol.setSortType(TableColumn.SortType.DESCENDING);
         TableColumn recipientCol = new TableColumn("Recipient");
         recipientCol.setCellValueFactory(new PropertyValueFactory<>("recipient"));
         recipientCol.setPrefWidth(110);
@@ -174,7 +182,6 @@ public class PersonnelManageItemsPageController {
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusCol.setPrefWidth(105);
         statusCol.setSortable(false);
-
         TableColumn pickupDateCol = new TableColumn("Pickup Date");
         pickupDateCol.setCellValueFactory(new PropertyValueFactory<>("pickupDate"));
         pickupDateCol.setCellFactory(tc -> new TableCell<Item, Date>() {
@@ -195,25 +202,34 @@ public class PersonnelManageItemsPageController {
         }else if(currentTableShow.equals("Received")){
             itemTable.getColumns().addAll(dateReceivedCol, recipientCol, roomCol, typeCol, statusCol, pickupDateCol);
         }
+        itemTable.getSortOrder().add(dateReceivedCol);
 
     }
 
     private void showSelectedItem(Item item) {
         selectedItem = item;
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", item.getImageFileName())));
         senderLabel.setText(item.getSenderName());
         typeLabel.setText(item.getItemType());
         sizeLabel.setText(item.getSize());
         dateReceivedLabel.setText(formatter.format(item.getDateReceived()));
         checkInfoBtn.setDisable(false);
+        if(currentTableShow.equals("Received")){
+            receiveBtn.setDisable(true);
+        }else{
+            receiveBtn.setDisable(false);
+        }
     }
 
     private void clearSelectedItem() {
         selectedItem = null;
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", "mail default.png")));
         senderLabel.setText("...");
         typeLabel.setText("...");
         sizeLabel.setText("...");
         dateReceivedLabel.setText("...");
         checkInfoBtn.setDisable(true);
+        receiveBtn.setDisable(true);
     }
 
 
@@ -363,5 +379,14 @@ public class PersonnelManageItemsPageController {
             clearSelectedItem();
             showSearchItemList(searchRoom);
         }
+    }
+
+    @FXML public void handleRecieveBtnOnAction(ActionEvent event){
+        selectedItem.changeStatus();
+        selectedItem.setPickupDate(new Date());
+        clearSelectedItem();
+        showItemList();
+
+        dataSource.setItemData(items);
     }
 }

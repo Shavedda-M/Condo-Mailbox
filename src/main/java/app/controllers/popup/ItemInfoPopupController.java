@@ -3,10 +3,12 @@ package app.controllers.popup;
 import app.models.Document;
 import app.models.Item;
 import app.models.Parcel;
+import app.services.ImageService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -21,12 +23,15 @@ public class ItemInfoPopupController {
     @FXML ImageView itemImageView;
 
     private Item selectedItem;
-    private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private DateFormat formatter;
+    private ImageService imageService;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
             @Override
             public void run(){
+                formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                imageService = new ImageService();
                 setOptionalInvisible();
                 if(selectedItem.getItemType().equals("mail")){
                     showMailInfo();
@@ -37,7 +42,10 @@ public class ItemInfoPopupController {
                 }
             }
         });
+    }
 
+    public void setSelectedItem(Item selectedItem) {
+        this.selectedItem = selectedItem;
     }
 
     public void setOptionalInvisible(){
@@ -51,6 +59,7 @@ public class ItemInfoPopupController {
 
 
     public void showMailInfo(){
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", selectedItem.getImageFileName())));
         senderLabel.setText(selectedItem.getSenderName());
         recipientLabel.setText(selectedItem.getRecipient());
         typeLabel.setText(selectedItem.getItemType());
@@ -66,6 +75,7 @@ public class ItemInfoPopupController {
     }
 
     public void showDocumentInfo(){
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", selectedItem.getImageFileName())));
         priorityText.setVisible(true);
         priorityLabel.setVisible(true);
         Document selectedDocument = (Document)selectedItem;
@@ -86,6 +96,7 @@ public class ItemInfoPopupController {
     }
 
     public void showParcelInfo(){
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", selectedItem.getImageFileName())));
         serviceNameText.setVisible(true);
         serviceNameLabel.setVisible(true);
         trackingNumberText.setVisible(true);
@@ -108,10 +119,6 @@ public class ItemInfoPopupController {
         trackingNumberText.setText("Tracking Number :");
         trackingNumberLabel.setText(selectedParcel.getTrackingNumber());
 
-    }
-
-    public void setSelectedItem(Item selectedItem) {
-        this.selectedItem = selectedItem;
     }
 
     @FXML public void handleCloseBtnOnAction(){

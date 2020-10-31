@@ -87,11 +87,11 @@
             <Glow />
          </effect>
       </Label>
-      <ImageView fx:id="profileImageView" fitHeight="140.0" fitWidth="135.0" layoutX="367.0" layoutY="501.0" pickOnBounds="true">
+      <ImageView fx:id="profileImageView" fitHeight="145.0" fitWidth="140.0" layoutX="367.0" layoutY="499.0" pickOnBounds="true">
          <image>
             <Image url="@Image/default%20profile.jpg" />
          </image></ImageView>
-      <Label layoutX="279.0" layoutY="551.0" text="Image" textFill="WHITE">
+      <Label layoutX="279.0" layoutY="557.0" text="Image" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -166,7 +166,7 @@
             </Lighting>
          </effect>
       </Button>
-      <Button fx:id="browseImageBtn" layoutX="530.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
+      <Button fx:id="browseImageBtn" layoutX="531.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

@@ -55,6 +55,15 @@ public class Room {
         return true;
     }
 
+    public void changeGuestNameList(String guest1){
+        guestNameList.set(0, guest1);
+    }
+
+    public void changeGuestNameList(String guest1, String guest2){
+        guestNameList.set(0, guest1);
+        guestNameList.set(1, guest2);
+    }
+
     public void addGuest(String guestName){
         guestNameList.add(guestName);
     }
@@ -79,7 +88,7 @@ public class Room {
         return guestNameList;
     }
 
-    public String getGuestName() {
+    public String getGuestName(){
         String line = "";
         for(int i = 0; i < guestNameList.size(); i++){
             if(i == guestNameList.size() - 1){

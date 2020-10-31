@@ -4,6 +4,7 @@ import app.controllers.login.LoginPageController;
 import app.controllers.popup.ItemInfoPopupController;
 import app.controllers.setting.SettingPageController;
 import app.models.*;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class GuestItemListPageController {
-    @FXML private Button accountSettingBtn, logoutBtn, checkInfoBtn, receiveBtn;
+    @FXML private Button accountSettingBtn, logoutBtn, checkInfoBtn, changeTableBtn;
     @FXML private Label userNameLabel, senderLabel, typeLabel, sizeLabel, dateReceivedLabel;
     @FXML private TableView<Item> itemTable;
     @FXML private ImageView itemImageView;
@@ -37,6 +39,7 @@ public class GuestItemListPageController {
     private RoomList rooms;
     private ItemList items;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
     private Item selectedItem;
     private String currentTableShow;
     private ArrayList<Item> showItem;
@@ -49,9 +52,9 @@ public class GuestItemListPageController {
             public void run(){
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
                 dataSource = new ReadWriteFile("data", "items.csv");
+                imageService = new ImageService();
                 currentTableShow = "Not Received";
                 checkInfoBtn.setDisable(true);
-                receiveBtn.setDisable(true);
                 itemTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         showSelectedItem(newValue);
@@ -83,10 +86,11 @@ public class GuestItemListPageController {
         }else if(currentTableShow.equals("Received")){
             showItem = items.getGuestReceivedItemList(guest);
         }
+
         itemObservableList = FXCollections.observableArrayList(showItem);
         itemTable.setItems(itemObservableList);
 
-        TableColumn dateReceivedCol = new TableColumn("DateReceived");
+        TableColumn dateReceivedCol = new TableColumn("Date Received");
         dateReceivedCol.setCellValueFactory(new PropertyValueFactory<>("dateReceived"));
         dateReceivedCol.setCellFactory(tc -> new TableCell<Item, Date>() {
             @Override
@@ -100,6 +104,7 @@ public class GuestItemListPageController {
             }
         });
         dateReceivedCol.setPrefWidth(145);
+        dateReceivedCol.setSortType(TableColumn.SortType.DESCENDING);
         TableColumn senderCol = new TableColumn("Sender");
         senderCol.setCellValueFactory(new PropertyValueFactory<>("senderName"));
         senderCol.setPrefWidth(110);
@@ -130,30 +135,27 @@ public class GuestItemListPageController {
         }else if(currentTableShow.equals("Received")){
             itemTable.getColumns().addAll(dateReceivedCol, senderCol, typeCol, sizeCol, pickupDateCol);
         }
+        itemTable.getSortOrder().addAll(dateReceivedCol);
     }
 
     private void showSelectedItem(Item item) {
         selectedItem = item;
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", item.getImageFileName())));
         senderLabel.setText(item.getSenderName());
         typeLabel.setText(item.getItemType());
         sizeLabel.setText(item.getSize());
         dateReceivedLabel.setText(formatter.format(item.getDateReceived()));
         checkInfoBtn.setDisable(false);
-        if(currentTableShow.equals("Received")){
-            receiveBtn.setDisable(true);
-        }else{
-            receiveBtn.setDisable(false);
-        }
     }
 
     private void clearSelectedItem() {
         selectedItem = null;
+        itemImageView.setImage(new Image(imageService.getImagePath("classes/Image", "mail default.png")));
         senderLabel.setText("...");
         typeLabel.setText("...");
         sizeLabel.setText("...");
         dateReceivedLabel.setText("...");
         checkInfoBtn.setDisable(true);
-        receiveBtn.setDisable(true);
     }
 
     @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {

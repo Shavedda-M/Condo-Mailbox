@@ -11,6 +11,7 @@ import app.models.AccountList;
 import app.models.ItemList;
 import app.models.RoomList;
 import app.services.BrowseImage;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -30,6 +31,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class SettingProfilePageController {
     @FXML private Button backBtn, changePasswordBtn, confirmBtn;
@@ -41,13 +43,18 @@ public class SettingProfilePageController {
     private RoomList rooms;
     private ItemList items;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
+    private File currentImageFile;
     private String prevPage;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
             @Override
             public void run(){
+                imageService = new ImageService();
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
+                currentImageFile = new File("classes/Image" + File.separator + accounts.getCurrentAccount().getImageFileName());
+                profileImageView.setImage(new Image(imageService.getImagePath("classes/Image", accounts.getCurrentAccount().getImageFileName())));
             }
         });
         dataSource = new ReadWriteFile("data", "accounts.csv");
@@ -121,7 +128,7 @@ public class SettingProfilePageController {
         stage.show();
     }
 
-    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){
+    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event) throws URISyntaxException {
         BrowseImage browseImage = new BrowseImage();
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -131,11 +138,12 @@ public class SettingProfilePageController {
 
         File file = fileChooser.showOpenDialog(stage);
         try{
+            currentImageFile = file;
             Image image = new Image(file.toURI().toString());
             profileImageView.setImage(image);
             profileImageView.setPreserveRatio(false);
-            profileImageView.setFitHeight(130);
-            profileImageView.setFitWidth(150);
+            profileImageView.setFitWidth(230);
+            profileImageView.setFitHeight(240);
         }catch (Exception ex){
 
         }
@@ -287,5 +295,7 @@ public class SettingProfilePageController {
     }
 
     @FXML public void handleConfirmBtnOnAction(){
+        accounts.getCurrentAccount().setImageFileName(imageService.copyImage("classes/Image", currentImageFile, "default profile.jpg"));
+        dataSource.setAccountsData(accounts);
     }
 }

@@ -12,15 +12,16 @@ public class Personnel extends Account implements Accounts {
     private Date lastLoginTime;
     private int tryLogin;
 
-    public Personnel(String name, String userName, String password, String status, Date lastLoginTime, int tryLogin){
-        super(name, userName, password, "personnel");
+
+    public Personnel(String name, String userName, String password, String status, Date lastLoginTime, int tryLogin, String imageFileName){
+        super(name, userName, password, "personnel", imageFileName);
         this.status = status;
         this.lastLoginTime = lastLoginTime;
         this.tryLogin = tryLogin;
     }
 
-    public Personnel(String name, String userName, String password){
-        super(name, userName, password, "personnel");
+    public Personnel(String name, String userName, String password, String imageFileName){
+        super(name, userName, password, "personnel", imageFileName);
         this.status = "Activated";
         this.lastLoginTime = new Date();
         this.tryLogin = 0;

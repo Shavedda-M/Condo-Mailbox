@@ -73,6 +73,12 @@ public class PersonnelAddGuestPageController {
         roomNumberError.setVisible(false);
     }
 
+    public void resetField(){
+        nameField.setText("");
+        buildingChoiceBox.setValue(null);
+        roomNumberField.setText("");
+    }
+
     @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
         ImageView b = (ImageView) event.getSource();
         Stage stage = (Stage) b.getScene().getWindow();
@@ -185,6 +191,7 @@ public class PersonnelAddGuestPageController {
                     NotificationPopupController noti = loader.getController();
                     noti.setTextLabel("Add Success");
                     popup.showAndWait();
+                    resetField();
                 } catch (RoomFullException e) {
                     errorLabel.setVisible(true);
                     errorLabel.setText("* " + e.getMessage());

@@ -141,8 +141,8 @@
             <Glow />
          </effect>
       </Label>
-      <TextField layoutX="404.0" layoutY="163.0" prefHeight="42.0" prefWidth="282.0" />
-      <Button fx:id="searchRoomBtn" layoutX="714.0" layoutY="164.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: #06c270;" text="Search" textFill="WHITE">
+      <TextField fx:id="guestNameSearchField" layoutX="376.0" layoutY="163.0" prefHeight="42.0" prefWidth="310.0" />
+      <Button fx:id="searchGuestBtn" layoutX="714.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleSearchGuestNameBtnOnAction" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: #06c270;" text="Search" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -157,10 +157,25 @@
             </Lighting>
          </effect>
       </Button>
-      <Label layoutX="241.0" layoutY="169.0" text="Room Number" textFill="WHITE">
+      <Label layoutX="243.0" layoutY="169.0" text="Guest Name" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="editRoomBtn" layoutX="865.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleEditRoomBtnOnAction" prefHeight="35.0" prefWidth="125.0" style="-fx-background-color: #ff8800;" text="Edit" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="1.44" specularConstant="0.93" specularExponent="40.0" surfaceScale="2.24">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
    </children>
 </AnchorPane>

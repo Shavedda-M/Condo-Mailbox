@@ -70,12 +70,12 @@
          </font>
       </Label>
       <PasswordField fx:id="passwordConfirmField" layoutX="483.0" layoutY="380.0" prefHeight="40.0" prefWidth="327.0" />
-      <Label layoutX="401.0" layoutY="490.0" text="Image" textFill="WHITE">
+      <Label layoutX="403.0" layoutY="498.0" text="Image" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <ImageView fx:id="profileImageView" fitHeight="140.0" fitWidth="135.0" layoutX="483.0" layoutY="440.0" pickOnBounds="true">
+      <ImageView fx:id="profileImageView" fitHeight="145.0" fitWidth="140.0" layoutX="483.0" layoutY="440.0" pickOnBounds="true">
          <image>
             <Image url="@Image/default%20profile.jpg" />
          </image></ImageView>
@@ -156,7 +156,7 @@
             <Glow />
          </effect>
       </Label>
-      <Label fx:id="errorLabel" layoutX="483.0" layoutY="638.0" text="* Required" textFill="RED">
+      <Label fx:id="errorLabel" layoutX="483.0" layoutY="637.0" text="* Required" textFill="RED">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -196,7 +196,7 @@
             </Lighting>
          </effect>
       </Button>
-      <Button fx:id="browseImageBtn" layoutX="545.0" layoutY="593.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
+      <Button fx:id="browseImageBtn" layoutX="550.0" layoutY="597.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

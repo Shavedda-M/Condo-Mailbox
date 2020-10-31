@@ -7,20 +7,20 @@ public class Parcel extends Item{
     private String serviceName;
     private String trackingNumber;
 
-    public Parcel(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String serviceName, String trackingNumber) {
-        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status);
+    public Parcel(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String serviceName, String trackingNumber, String imageFileName) {
+        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status, imageFileName);
         this.serviceName = serviceName;
         this.trackingNumber = trackingNumber;
     }
 
-    public Parcel(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String serviceName, String trackingNumber, Date pickupDate) {
-        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status, pickupDate);
+    public Parcel(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String status, String serviceName, String trackingNumber, Date pickupDate, String imageFileName) {
+        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, status, pickupDate, imageFileName);
         this.serviceName = serviceName;
         this.trackingNumber = trackingNumber;
     }
 
-    public Parcel(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String serviceName, String trackingNumber) {
-        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate);
+    public Parcel(String itemType, String recipient, Room room, String senderName, String size, String receivingPersonnel, Date receiveDate, String serviceName, String trackingNumber, String imageFileName) {
+        super(itemType, recipient, room, senderName, size, receivingPersonnel, receiveDate, imageFileName);
         this.serviceName = serviceName;
         this.trackingNumber = trackingNumber;
     }

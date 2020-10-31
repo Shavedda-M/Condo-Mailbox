@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #28293d;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.login.LoginPageController">
@@ -70,7 +71,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <ImageView fitHeight="190.0" fitWidth="160.0" layoutX="852.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0">
+      <ImageView fitHeight="190.0" fitWidth="160.0" layoutX="852.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false">
          <image>
             <Image url="@Image/P'To%206.png" />
          </image>
@@ -78,6 +79,12 @@
       <ImageView fitHeight="171.0" fitWidth="145.0" layoutX="705.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Image/P'To%205.png" />
+         </image>
+      </ImageView>
+      <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="360.0" layoutX="602.0" layoutY="60.0" />
+      <ImageView fx:id="createrInfoBtn" fitHeight="60.0" fitWidth="60.0" layoutX="953.0" layoutY="698.0" onMouseClicked="#handleCreaterInfoBtnOnAction">
+         <image>
+            <Image url="@Image/info.png" />
          </image>
       </ImageView>
    </children>

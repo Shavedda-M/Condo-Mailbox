@@ -142,7 +142,7 @@
       <TextField fx:id="roomField" layoutX="679.0" layoutY="430.0" prefHeight="35.0" prefWidth="150.0" />
       <ImageView fx:id="itemImageView" fitHeight="135.0" fitWidth="135.0" layoutX="444.0" layoutY="480.0" pickOnBounds="true">
          <image>
-            <Image url="@Image/package%20default.png" />
+            <Image url="@Image/parcel%20default.png" />
          </image>
       </ImageView>
       <Label layoutX="370.0" layoutY="533.0" text="Image" textFill="WHITE">

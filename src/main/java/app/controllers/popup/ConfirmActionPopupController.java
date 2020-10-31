@@ -8,7 +8,7 @@ public class ConfirmActionPopupController {
 
     @FXML Button cancelBtn, confirmBtn;
 
-    private String action;
+    private String action = "";
 
     public String getAction() {
         return action;

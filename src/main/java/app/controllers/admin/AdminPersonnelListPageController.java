@@ -5,6 +5,7 @@ import app.controllers.popup.ConfirmActionPopupController;
 import app.controllers.popup.NotificationPopupController;
 import app.controllers.setting.SettingPageController;
 import app.models.*;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -15,13 +16,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,6 +41,7 @@ public class AdminPersonnelListPageController {
     private ItemList items;
     private Personnel selectedPersonnel;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
     private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     private ObservableList<Personnel> personnelObservableList;
@@ -48,6 +53,7 @@ public class AdminPersonnelListPageController {
             public void run(){
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
                 dataSource = new ReadWriteFile("data", "accounts.csv");
+                imageService = new ImageService();
                 changeStatusBtn.setDisable(true);
                 deleteAccountBtn.setDisable(true);
                 personnelTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -90,6 +96,7 @@ public class AdminPersonnelListPageController {
             }
         });
         lastLoginCol.setPrefWidth(145);
+        lastLoginCol.setSortType(TableColumn.SortType.DESCENDING);
         TableColumn nameCol = new TableColumn("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameCol.setPrefWidth(103);
@@ -101,10 +108,12 @@ public class AdminPersonnelListPageController {
         statuscol.setPrefWidth(75);
 
         personnelTable.getColumns().addAll(lastLoginCol, nameCol, userNameCol, statuscol);
+        personnelTable.getSortOrder().add(lastLoginCol);
     }
 
     private void showSelectedPersonnel(Personnel personnel) {
         selectedPersonnel = personnel;
+        perImageView.setImage(new Image(imageService.getImagePath("classes/Image", personnel.getImageFileName())));
         perNameLabel.setText(personnel.getName());
         perUsernameLabel.setText(personnel.getUserName());
         perPasswordLabel.setText(personnel.getPassword());
@@ -115,6 +124,7 @@ public class AdminPersonnelListPageController {
     }
 
     private void clearSelectedPersonnel() {
+        perImageView.setImage(new Image(imageService.getImagePath("classes/Image", "default profile.jpg")));
         selectedPersonnel = null;
         perNameLabel.setText("...");
         perUsernameLabel.setText("...");
@@ -127,7 +137,7 @@ public class AdminPersonnelListPageController {
 
     @FXML public void handleChangeStatusBtnOnAction(ActionEvent event) throws IOException {
         selectedPersonnel.changeStatus();
-        clearSelectedPersonnel();
+        perStatusLabel.setText(selectedPersonnel.getStatus());
         personnelTable.refresh();
         personnelTable.getSelectionModel().clearSelection();
 

@@ -8,6 +8,7 @@ import app.models.Item;
 import app.models.ItemList;
 import app.models.RoomList;
 import app.services.BrowseImage;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -28,7 +29,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.net.URISyntaxException;
 import java.util.Date;
 
 
@@ -46,6 +47,9 @@ public class PersonnelAddMailPageController {
     private RoomList rooms;
     private ItemList items;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
+    private File currentImageFile;
+    private Image defaultImage;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
@@ -53,6 +57,9 @@ public class PersonnelAddMailPageController {
             public void run(){
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
                 dataSource = new ReadWriteFile("data", "items.csv");
+                currentImageFile = new File("classes/Image" + File.separator + "mail default.png");
+                imageService = new ImageService();
+                defaultImage = itemImageView.getImage();
                 setAllErrorDisable();
             }
         });
@@ -78,6 +85,15 @@ public class PersonnelAddMailPageController {
         sizeError.setVisible(false);
         buildingError.setVisible(false);
         roomNumberError.setVisible(false);
+    }
+
+    public void resetField(){
+        recipientField.setText("");
+        senderField.setText("");
+        sizeField.setText("");
+        roomField.setText("");
+        buildingChoiceBox.setValue(null);
+        itemImageView.setImage(defaultImage);
     }
 
     @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
@@ -206,7 +222,10 @@ public class PersonnelAddMailPageController {
         setAllErrorDisable();
         if(!recipientField.getText().equals("") && !senderField.getText().equals("") && !sizeField.getText().equals("") && !roomField.getText().equals("") && !(buildingChoiceBox.getValue() == null)){
             if(rooms.checkRoom(recipientField.getText(), buildingChoiceBox.getValue().toString(), roomField.getText())){
-                Item item = new Item("mail", recipientField.getText(), rooms.findRoom(recipientField.getText(), buildingChoiceBox.getValue().toString(), roomField.getText()), senderField.getText(), sizeField.getText(), accounts.getCurrentAccount().getName(), new Date());
+                Item item = new Item("mail", recipientField.getText(), rooms.findRoom(recipientField.getText()
+                                    , buildingChoiceBox.getValue().toString(), roomField.getText())
+                                    , senderField.getText(), sizeField.getText(), accounts.getCurrentAccount().getName()
+                                    , new Date(), imageService.copyImage("classes/Image", currentImageFile, "mail default.png"));
                 items.addItem(item);
                 dataSource.setItemData(items);
 
@@ -219,9 +238,12 @@ public class PersonnelAddMailPageController {
                 NotificationPopupController noti = loader.getController();
                 noti.setTextLabel("Add Success");
                 popup.showAndWait();
+                resetField();
             }else{
                 errorLabel.setVisible(true);
                 errorLabel.setText("* Invalid room number");
+                recipientError.setVisible(true);
+                buildingError.setVisible(true);
                 roomNumberError.setVisible(true);
             }
         }else{
@@ -256,7 +278,7 @@ public class PersonnelAddMailPageController {
     }
 
 
-    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){
+    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event) throws URISyntaxException {
 
         BrowseImage browseImage = new BrowseImage();
 
@@ -267,6 +289,7 @@ public class PersonnelAddMailPageController {
 
         File file = fileChooser.showOpenDialog(stage);
         try{
+            currentImageFile = file;
             Image image = new Image(file.toURI().toString());
             itemImageView.setImage(image);
             itemImageView.setPreserveRatio(false);

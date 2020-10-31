@@ -6,6 +6,7 @@ import app.controllers.setting.SettingPageController;
 import app.exceptions.UsernameNotAvailableException;
 import app.models.*;
 import app.services.BrowseImage;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -26,6 +27,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class AdminAddPersonnelPageController {
     @FXML private TextField nameField, userNameField, passwordField, passwordConfirmField;
@@ -36,6 +38,8 @@ public class AdminAddPersonnelPageController {
     private AccountList accounts;
     private RoomList rooms;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
+    private File currentImageFile;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
@@ -43,6 +47,8 @@ public class AdminAddPersonnelPageController {
             public void run(){
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
                 dataSource = new ReadWriteFile("data", "accounts.csv");
+                currentImageFile = new File("classes/Image" + File.separator + "default profile.jpg");
+                imageService = new ImageService();
                 setAllErrorDisable();
             }
         });
@@ -62,6 +68,14 @@ public class AdminAddPersonnelPageController {
         passwordError.setVisible(false);
         passwordConfirmError.setVisible(false);
         nameError.setVisible(false);
+    }
+
+    public void resetField(){
+        nameField.setText("");
+        userNameField.setText("");
+        passwordField.setText("");
+        passwordConfirmField.setText("");
+        profileImageView.setImage(new Image(imageService.getImagePath("classes/Image", "default profile.jpg")));
     }
 
     @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
@@ -131,9 +145,9 @@ public class AdminAddPersonnelPageController {
         setAllErrorDisable();
         if(!nameField.getText().equals("") && !userNameField.getText().equals("") && !passwordField.getText().equals("") && !passwordConfirmField.getText().equals("")){
             try{
-                if(accounts.checkUsernameAvaliable(userNameField.getText())){
+                if(accounts.checkUsernameAvailable(userNameField.getText())){
                     if(passwordField.getText().equals(passwordConfirmField.getText())){
-                        Account ac = new Personnel(nameField.getText(), userNameField.getText(), passwordField.getText());
+                        Account ac = new Personnel(nameField.getText(), userNameField.getText(), passwordField.getText(), imageService.copyImage("classes/Image", currentImageFile, "default profile.jpg"));
                         accounts.addAccount(ac);
                         dataSource.setAccountsData(accounts);
 
@@ -150,6 +164,7 @@ public class AdminAddPersonnelPageController {
                         NotificationPopupController noti = loader.getController();
                         noti.setTextLabel("Create Successful");
                         popup.showAndWait();
+                        resetField();
                     }else{
                         errorLabel.setVisible(true);
                         errorLabel.setText("* Please enter the same password");
@@ -188,7 +203,7 @@ public class AdminAddPersonnelPageController {
         }
     }
 
-    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){
+    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event) throws URISyntaxException {
 
         BrowseImage browseImage = new BrowseImage();
 
@@ -199,11 +214,12 @@ public class AdminAddPersonnelPageController {
 
         File file = fileChooser.showOpenDialog(stage);
         try{
+            currentImageFile = file;
             Image image = new Image(file.toURI().toString());
             profileImageView.setImage(image);
             profileImageView.setPreserveRatio(false);
-            profileImageView.setFitHeight(130);
-            profileImageView.setFitWidth(150);
+            profileImageView.setFitHeight(145);
+            profileImageView.setFitWidth(140);
         }catch (Exception ex){
 
         }

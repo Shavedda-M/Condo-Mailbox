@@ -188,7 +188,7 @@
             <Glow />
          </effect>
       </Label>
-      <Label fx:id="errorLabel" layoutX="451.0" layoutY="575.0" text="* Required" textFill="RED">
+      <Label fx:id="errorLabel" layoutX="451.0" layoutY="568.0" text="* Required" textFill="RED">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -218,7 +218,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="addItemBtn" layoutX="557.0" layoutY="609.0" mnemonicParsing="false" onAction="#handleAddItemBtnOnAction" prefHeight="35.0" prefWidth="69.0" style="-fx-background-color: #06c270;" text="Add" textFill="WHITE">
+      <Button fx:id="addItemBtn" layoutX="557.0" layoutY="599.0" mnemonicParsing="false" onAction="#handleAddItemBtnOnAction" prefHeight="35.0" prefWidth="69.0" style="-fx-background-color: #06c270;" text="Add" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -233,7 +233,7 @@
             </Lighting>
          </effect>
       </Button>
-      <Button fx:id="browseImageBtn" layoutX="519.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
+      <Button fx:id="browseImageBtn" layoutX="521.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleBrowseImageBtnOnAction" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: white;" text="Browse">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

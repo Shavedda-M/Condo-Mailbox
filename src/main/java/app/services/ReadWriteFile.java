@@ -14,14 +14,16 @@ import java.util.Date;
 public class ReadWriteFile {
 
     private AccountList accounts;
-    private RoomList rooms = new RoomList();
-    private ItemList items = new ItemList();
+    private RoomList rooms;
+    private ItemList items;
     private String fileDirectoryName;
     private String fileName;
 
 
     public ReadWriteFile(String fileDirectoryName, String fileName) {
         accounts = new AccountList();
+        rooms = new RoomList();
+        items = new ItemList();
         this.fileDirectoryName = fileDirectoryName;
         this.fileName = fileName;
         checkFileIsExisted();
@@ -29,10 +31,12 @@ public class ReadWriteFile {
 
     public void setFileDirectoryName(String fileDirectoryName) {
         this.fileDirectoryName = fileDirectoryName;
+        checkFileIsExisted();
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+        checkFileIsExisted();
     }
 
     private void checkFileIsExisted() {
@@ -65,19 +69,22 @@ public class ReadWriteFile {
             String userName = data[2];
             String password = data[3];
             if (accountType.equals("admin")) {
-                Account ac = new Account(name, userName, password, accountType);
+                String imageFileName = data[4];
+                Account ac = new Account(name, userName, password, accountType, imageFileName);
                 accounts.addAccount(ac);
             }else if (accountType.equals("personnel")) {
                 String status = data[4];
                 String date = data[5];
                 Date lastLoginTime = formatter.parse(date);
                 int tryLogin = Integer.parseInt(data[6]);
-                Account ac = new Personnel(name, userName, password, status, lastLoginTime, tryLogin);
+                String imageFileName = data[7];
+                Account ac = new Personnel(name, userName, password, status, lastLoginTime, tryLogin, imageFileName);
                 accounts.addAccount(ac);
             }else if (accountType.equals("guest")) {
                 String building = data[4];
                 String roomNumber = data[5];
-                Account ac = new Guest(name, userName, password, rooms.findRoom(name, building, roomNumber));
+                String imageFileName = data[6];
+                Account ac = new Guest(name, userName, password, rooms.findRoom(name, building, roomNumber), imageFileName);
                 accounts.addAccount(ac);
             }
         }
@@ -110,7 +117,8 @@ public class ReadWriteFile {
                     String line = account.getAccountType() + ","
                                 + account.getName() + ","
                                 + account.getUserName() + ","
-                                + account.getPassword();
+                                + account.getPassword() + ","
+                                + account.getImageFileName();
                     writer.append(line);
                 }else if(account.getAccountType().equals("personnel")){
                     Personnel per = (Personnel) account;
@@ -121,7 +129,8 @@ public class ReadWriteFile {
                                 + per.getPassword() + ","
                                 + per.getStatus() + ","
                                 + "00/00/0000 00:00:00" + ","
-                                + per.getTryLogin();
+                                + per.getTryLogin() + ","
+                                + per.getImageFileName();
                         writer.append(line);
                     }else{
                         String line = per.getAccountType() + ","
@@ -130,7 +139,8 @@ public class ReadWriteFile {
                                 + per.getPassword() + ","
                                 + per.getStatus() + ","
                                 + formatter.format(per.getLastLoginTime()) + ","
-                                + per.getTryLogin();
+                                + per.getTryLogin() + ","
+                                + per.getImageFileName();
                         writer.append(line);
                     }
                 }else if(account.getAccountType().equals("guest")){
@@ -140,7 +150,8 @@ public class ReadWriteFile {
                                 + guest.getUserName() + ","
                                 + guest.getPassword() + ","
                                 + guest.getRoom().getBuilding() + ","
-                                + guest.getRoom().getRoomNumber();
+                                + guest.getRoom().getRoomNumber() + ","
+                                + guest.getImageFileName();
                     writer.append(line);
                 }
                 writer.newLine();
@@ -229,10 +240,14 @@ public class ReadWriteFile {
                 String status = data[8];
                 if(status.equals("Received")){
                     Date pickupDate = formatter.parse(data[9]);
-                    Item item = new Item(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, pickupDate);
+                    String imageFileName = data[10];
+                    Item item = new Item(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size
+                                        , receivingPersonnel, dateReceived, status, pickupDate, imageFileName);
                     items.addItem(item);
                 }else{
-                    Item item = new Item(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status);
+                    String imageFileName = data[9];
+                    Item item = new Item(itemType, recipient, rooms.findRoom(recipient
+                                        , building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, imageFileName);
                     items.addItem(item);
                 }
             }else if (itemType.equals("document")) {
@@ -240,10 +255,14 @@ public class ReadWriteFile {
                 String status = data[9];
                 if(status.equals("Received")){
                     Date pickupDate = formatter.parse(data[10]);
-                    Item item = new Document(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, priority, pickupDate);
+                    String imageFileName = data[11];
+                    Item item = new Document(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender
+                                            , size, receivingPersonnel, dateReceived, status, priority, pickupDate, imageFileName);
                     items.addItem(item);
                 }else{
-                    Item item = new Document(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, priority);
+                    String imageFileName = data[10];
+                    Item item = new Document(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender
+                                            , size, receivingPersonnel, dateReceived, status, priority, imageFileName);
                     items.addItem(item);
                 }
 
@@ -253,10 +272,12 @@ public class ReadWriteFile {
                 String status = data[10];
                 if(status.equals("Received")){
                     Date pickupDate = formatter.parse(data[11]);
-                    Item item = new Parcel(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, serviceName,trackingNumeber, pickupDate);
+                    String imageFileName = data[12];
+                    Item item = new Parcel(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, serviceName,trackingNumeber, pickupDate, imageFileName);
                     items.addItem(item);
                 }else{
-                    Item item = new Parcel(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, serviceName,trackingNumeber);
+                    String imageFileName = data[11];
+                    Item item = new Parcel(itemType, recipient, rooms.findRoom(recipient, building, roomNumber), sender, size, receivingPersonnel, dateReceived, status, serviceName,trackingNumeber, imageFileName);
                     items.addItem(item);
                 }
             }
@@ -297,7 +318,9 @@ public class ReadWriteFile {
                                 + formatter.format(item.getDateReceived()) + ","
                                 + item.getStatus();
                     if(item.getStatus().equals("Received")){
-                        line += "," + formatter.format(item.getPickupDate());
+                        line += "," + formatter.format(item.getPickupDate()) + "," + item.getImageFileName();
+                    }else{
+                        line += "," + item.getImageFileName();
                     }
                     writer.append(line);
                 }else if(item.getItemType().equals("document")){
@@ -313,7 +336,9 @@ public class ReadWriteFile {
                                 + doc.getPriority() + ","
                                 + doc.getStatus();
                     if(doc.getStatus().equals("Received")){
-                        line += "," + formatter.format(doc.getPickupDate());
+                        line += "," + formatter.format(doc.getPickupDate()) + "," + doc.getImageFileName();
+                    }else{
+                        line += "," + doc.getImageFileName();
                     }
                     writer.append(line);
                 }else if(item.getItemType().equals("parcel")){
@@ -330,7 +355,9 @@ public class ReadWriteFile {
                                 + par.getTrackingNumber() + ","
                                 + par.getStatus();
                     if(par.getStatus().equals("Received")){
-                        line += "," + formatter.format(par.getPickupDate());
+                        line += "," + formatter.format(par.getPickupDate()) + "," + par.getImageFileName();
+                    }else{
+                        line += "," + par.getImageFileName();
                     }
                     writer.append(line);
                 }

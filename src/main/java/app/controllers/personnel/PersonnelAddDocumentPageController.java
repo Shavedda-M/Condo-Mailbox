@@ -5,6 +5,7 @@ import app.controllers.popup.NotificationPopupController;
 import app.controllers.setting.SettingPageController;
 import app.models.*;
 import app.services.BrowseImage;
+import app.services.ImageService;
 import app.services.ReadWriteFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Date;
 
 public class PersonnelAddDocumentPageController {
@@ -42,6 +44,9 @@ public class PersonnelAddDocumentPageController {
     private RoomList rooms;
     private ItemList items;
     private ReadWriteFile dataSource;
+    private ImageService imageService;
+    private File currentImageFile;
+    private Image defaultImage;
 
     @FXML private void initialize(){
         Platform.runLater(new Runnable(){
@@ -49,6 +54,9 @@ public class PersonnelAddDocumentPageController {
             public void run(){
                 userNameLabel.setText(accounts.getCurrentAccount().getName());
                 dataSource = new ReadWriteFile("data", "items.csv");
+                currentImageFile = new File("classes/Image" + File.separator + "document default.png");
+                imageService = new ImageService();
+                defaultImage = itemImageView.getImage();
                 setAllErrorDisable();
             }
         });
@@ -76,6 +84,16 @@ public class PersonnelAddDocumentPageController {
         priorityError.setVisible(false);
         buildingError.setVisible(false);
         roomNumberError.setVisible(false);
+    }
+
+    public void resetField(){
+        recipientField.setText("");
+        senderField.setText("");
+        sizeField.setText("");
+        roomField.setText("");
+        buildingChoiceBox.setValue(null);
+        priorityChoiceBox.setValue(null);
+        itemImageView.setImage(defaultImage);
     }
 
     @FXML public void handleAccountSettingImageOnAction(MouseEvent event) throws IOException {
@@ -201,9 +219,13 @@ public class PersonnelAddDocumentPageController {
     }
 
     @FXML public void handleAddItemBtnOnAction(ActionEvent event) throws IOException {
+        setAllErrorDisable();
         if(!recipientField.getText().equals("") && !senderField.getText().equals("") && !sizeField.getText().equals("") && !roomField.getText().equals("") && !(buildingChoiceBox.getValue() == null) && !(priorityChoiceBox.getValue() == null)){
             if(rooms.checkRoom(recipientField.getText(), buildingChoiceBox.getValue().toString(), roomField.getText())){
-                Item item = new Document("mail", recipientField.getText(), rooms.findRoom(recipientField.getText(), buildingChoiceBox.getValue().toString(), roomField.getText()), senderField.getText(), sizeField.getText(), accounts.getCurrentAccount().getName(), new Date(), priorityChoiceBox.getValue().toString());
+                Item item = new Document("document", recipientField.getText(), rooms.findRoom(recipientField.getText()
+                                        , buildingChoiceBox.getValue().toString(), roomField.getText()), senderField.getText()
+                                        , sizeField.getText(), accounts.getCurrentAccount().getName(), new Date()
+                                        , priorityChoiceBox.getValue().toString(), imageService.copyImage("classes/Image", currentImageFile, "document default.png"));
                 items.addItem(item);
                 dataSource.setItemData(items);
 
@@ -216,9 +238,12 @@ public class PersonnelAddDocumentPageController {
                 NotificationPopupController noti = loader.getController();
                 noti.setTextLabel("Add Success");
                 popup.showAndWait();
+                resetField();
             }else{
                 errorLabel.setVisible(true);
                 errorLabel.setText("* Invalid room number");
+                recipientError.setVisible(true);
+                buildingError.setVisible(true);
                 roomNumberError.setVisible(true);
             }
         }else{
@@ -257,7 +282,7 @@ public class PersonnelAddDocumentPageController {
         }
     }
 
-    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event){
+    @FXML public void handleBrowseImageBtnOnAction(ActionEvent event) throws URISyntaxException {
 
         BrowseImage browseImage = new BrowseImage();
 
@@ -268,6 +293,7 @@ public class PersonnelAddDocumentPageController {
 
         File file = fileChooser.showOpenDialog(stage);
         try{
+            currentImageFile = file;
             Image image = new Image(file.toURI().toString());
             itemImageView.setImage(image);
             itemImageView.setPreserveRatio(false);
