@@ -99,10 +99,12 @@ java -jar 6210402461.jar
 ~ Removed [ ลบ ]
 
 
-[31/10/2020 06.22.12 PM] [ ]
+[31/10/2020 07.10.12 PM] [ ]
 
 * \+ Added Popup Controller
     * CreaterPopupController
+* \+ Added Services
+    * ImageService
 * \+ Added new function to PersonnelRoomListPageController
     * Search room by guest name
     * Edit room info
