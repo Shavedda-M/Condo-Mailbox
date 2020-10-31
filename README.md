@@ -99,6 +99,7 @@ java -jar 6210402461.jar
 ~ Removed [ ลบ ]
 
 
+<<<<<<< HEAD
 [31/10/2020 07.10.12 PM] [ ]
 
 * \+ Added Popup Controller
@@ -129,6 +130,9 @@ java -jar 6210402461.jar
     * Add receive item
 
 [20/10/2020 10:39:17 PM] [eef72c8]
+=======
+[20/10/2020 22:39:24 AM] [ ]
+>>>>>>> eef72c8f2112b76c946088e72a0fcdd60f0fd65c
 
 * \+ Added More Room to rooms.csv
 * \+ Added More Item to items.csv
