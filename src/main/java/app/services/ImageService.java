@@ -67,9 +67,13 @@ public class ImageService {
                 }
             } catch (IOException e) {
                 System.out.println("Can't copy. Already have this image");
+            } catch (NullPointerException n){
+                System.out.println("Can't copy file");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        } catch (NullPointerException n){
+            System.out.println("Can't copy file");
         }
         return defaultImage;
     }

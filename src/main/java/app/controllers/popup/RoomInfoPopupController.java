@@ -95,7 +95,7 @@ public class RoomInfoPopupController {
         }
     }
 
-    @FXML public void handleApplyChangeBtnOnAction(){
+    @FXML public void handleApplyChangeBtnOnAction() throws IOException {
         setAllErrorDisable();
         if(selectRoom.getRoomType().equals("Single")){
             if(selectRoom.getGuestNameList().size() == 1){
@@ -106,6 +106,15 @@ public class RoomInfoPopupController {
                 }else{
                     selectRoom.changeGuestNameList(guest1Field.getText());
                     dataSource.setRoomData(rooms);
+                    Stage popup = new Stage();
+                    popup.initModality(Modality.APPLICATION_MODAL);
+                    popup.setResizable(false);
+                    FXMLLoader loader = new FXMLLoader
+                            (getClass().getResource("/notification_popup.fxml"));
+                    popup.setScene(new Scene(loader.load(), 290, 100));
+                    NotificationPopupController noti = loader.getController();
+                    noti.setTextLabel("Change Complete");
+                    popup.showAndWait();
                     showGuestName();
                 }
             }
@@ -118,12 +127,30 @@ public class RoomInfoPopupController {
                 } else {
                     selectRoom.changeGuestNameList(guest1Field.getText());
                     dataSource.setRoomData(rooms);
+                    Stage popup = new Stage();
+                    popup.initModality(Modality.APPLICATION_MODAL);
+                    popup.setResizable(false);
+                    FXMLLoader loader = new FXMLLoader
+                            (getClass().getResource("/notification_popup.fxml"));
+                    popup.setScene(new Scene(loader.load(), 290, 100));
+                    NotificationPopupController noti = loader.getController();
+                    noti.setTextLabel("Change Complete");
+                    popup.showAndWait();
                     showGuestName();
                 }
             } else if (selectRoom.getGuestNameList().size() == 2) {
                 if (!guest1Field.getText().equals("") && !guest2Field.getText().equals("")) {
                     selectRoom.changeGuestNameList(guest1Field.getText(), guest2Field.getText());
                     dataSource.setRoomData(rooms);
+                    Stage popup = new Stage();
+                    popup.initModality(Modality.APPLICATION_MODAL);
+                    popup.setResizable(false);
+                    FXMLLoader loader = new FXMLLoader
+                            (getClass().getResource("/notification_popup.fxml"));
+                    popup.setScene(new Scene(loader.load(), 290, 100));
+                    NotificationPopupController noti = loader.getController();
+                    noti.setTextLabel("Change Complete");
+                    popup.showAndWait();
                     showGuestName();
                 } else {
                     errorLabel.setVisible(true);
