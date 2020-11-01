@@ -129,13 +129,16 @@ public class GuestItemListPageController {
             }
         });
         pickupDateCol.setPrefWidth(145);
+        pickupDateCol.setSortType(TableColumn.SortType.DESCENDING);
 
         if(currentTableShow.equals("Not Received")){
             itemTable.getColumns().addAll(dateReceivedCol, senderCol, typeCol, sizeCol);
+            itemTable.getSortOrder().addAll(dateReceivedCol);
         }else if(currentTableShow.equals("Received")){
-            itemTable.getColumns().addAll(dateReceivedCol, senderCol, typeCol, sizeCol, pickupDateCol);
+            itemTable.getColumns().addAll(pickupDateCol, senderCol, typeCol, sizeCol, dateReceivedCol);
+            itemTable.getSortOrder().addAll(pickupDateCol);
         }
-        itemTable.getSortOrder().addAll(dateReceivedCol);
+
     }
 
     private void showSelectedItem(Item item) {

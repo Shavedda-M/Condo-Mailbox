@@ -155,7 +155,6 @@ public class RoomInfoPopupController {
         String action = confirmAction.getAction();
         if(action.equals("confirm")){
             selectRoom.getGuestNameList().remove(0);
-            System.out.println(selectRoom.getGuestNameList());
             dataSource.setRoomData(rooms);
         }
         showGuestName();
@@ -173,7 +172,6 @@ public class RoomInfoPopupController {
         String action = confirmAction.getAction();
         if(action.equals("confirm")){
             selectRoom.getGuestNameList().remove(1);
-            System.out.println(selectRoom.getGuestNameList());
             dataSource.setRoomData(rooms);
         }
         showGuestName();

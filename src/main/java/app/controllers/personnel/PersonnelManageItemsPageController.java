@@ -133,13 +133,16 @@ public class PersonnelManageItemsPageController {
             }
         });
         pickupDateCol.setPrefWidth(145);
+        pickupDateCol.setSortType(TableColumn.SortType.DESCENDING);
 
         if(currentTableShow.equals("Not Received")){
             itemTable.getColumns().addAll(dateReceivedCol, recipientCol, roomCol, typeCol, statusCol);
+            itemTable.getSortOrder().add(dateReceivedCol);
         }else if(currentTableShow.equals("Received")){
-            itemTable.getColumns().addAll(dateReceivedCol, recipientCol, roomCol, typeCol, statusCol, pickupDateCol);
+            itemTable.getColumns().addAll(pickupDateCol, recipientCol, roomCol, typeCol, statusCol, dateReceivedCol);
+            itemTable.getSortOrder().add(pickupDateCol);
         }
-        itemTable.getSortOrder().add(dateReceivedCol);
+
     }
 
     private void showSearchItemList(String roomNumber){
